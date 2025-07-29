@@ -1,0 +1,68 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="hackergradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ff00;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#00cc00;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#004400;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="matrixglow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ff00;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:1" />
+    </linearGradient>
+    <filter id="hackerglow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Terminal Background -->
+  <rect x="8" y="8" width="112" height="112" rx="8" ry="8" 
+        fill="#000000" stroke="#00ff00" stroke-width="1" filter="url(#hackerglow)">
+    <animate attributeName="stroke-opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+  </rect>
+  
+  <!-- Skull Base -->
+  <ellipse cx="64" cy="45" rx="25" ry="20" fill="url(#hackergradient)" filter="url(#hackerglow)">
+    <animate attributeName="fill-opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
+  </ellipse>
+  
+  <!-- Eye Sockets -->
+  <circle cx="56" cy="42" r="4" fill="#000000">
+    <animate attributeName="r" values="4;5;4" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="72" cy="42" r="4" fill="#000000">
+    <animate attributeName="r" values="4;5;4" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Glowing Eyes -->
+  <circle cx="56" cy="42" r="2" fill="#00ff00" filter="url(#hackerglow)">
+    <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="72" cy="42" r="2" fill="#00ff00" filter="url(#hackerglow)">
+    <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Matrix Code Lines -->
+  <text x="20" y="75" font-family="monospace" font-size="6" fill="#00ff00" opacity="0.7">
+    01000111
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
+  </text>
+  <text x="20" y="85" font-family="monospace" font-size="6" fill="#00ff00" opacity="0.5">
+    01000001
+    <animate attributeName="opacity" values="0.5;0.9;0.5" dur="2.5s" repeatCount="indefinite"/>
+  </text>
+  
+  <!-- Academy Text -->
+  <text x="64" y="105" text-anchor="middle" font-family="monospace" 
+        font-size="8" font-weight="bold" fill="#00ff00" filter="url(#hackerglow)">
+    GrandpaACADEMY
+    <animate attributeName="fill" values="#00ff00;#ffffff;#00ff00" dur="3s" repeatCount="indefinite"/>
+  </text>
+  
+  <!-- Version -->
+  <text x="64" y="118" text-anchor="middle" font-family="monospace" 
+        font-size="6" fill="#00cc00">v2.0</text>
+</svg>
