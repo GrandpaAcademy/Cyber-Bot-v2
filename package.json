@@ -1,0 +1,78 @@
+{
+  "name": "Cyber-Bot-v2",
+  "version": "2.0.0",
+  "description": "A Simple Updated version of Cyber Bot v1",
+  "main": "main.js",
+  "engines": {
+    "node": ">=20.x"
+  },
+  "bin": {
+    "botpack": "./main.js"
+  },
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "presets": [
+    "@babel/preset-env"
+  ],
+  "keywords": [
+    "Facebook",
+    "Messenger",
+    "Chatbot",
+    "NodeJS",
+    "GrandpaAcademy"
+  ],
+  "license": "MIT",
+  "author": "GrandpaAcademy",
+  "dependencies": {
+    "@distube/ytdl-core": "^4.16.12",
+    "aes-js": "^3.1.2",
+    "ansi": "^0.3.1",
+    "axios": "^1.11.0",
+    "bluebird": "^3.7.2",
+    "canvas": "^3.1.2",
+    "chalk": "^4.1.2",
+    "cheerio": "^1.1.2",
+    "child_process": "^1.0.2",
+    "destroy": "^1.2.0",
+    "express": "^5.1.0",
+    "fontstyles": "^1.1.2",
+    "form-data": "^4.0.4",
+    "fs-extra": "^11.3.0",
+    "get-latest-version": "^5.1.0",
+    "gpti": "^2.1.8",
+    "gradient-string": "^2.0.2",
+    "https-proxy-agent": "^7.0.2",
+    "jimp": "^1.6.0",
+    "lodash.pad": "^4.5.1",
+    "lodash.padend": "^4.6.1",
+    "lodash.padstart": "^4.6.1",
+    "moment": "^2.30.1",
+    "moment-timezone": "^0.6.0",
+    "mqtt": "^4.3.7",
+    "node-cron": "^4.2.1",
+    "npmlog": "^7.0.1",
+    "pastebin-api": "^7.0.0",
+    "path": "^0.12.7",
+    "request": "^2.88.2",
+    "semver": "^7.7.2",
+    "simple-youtube-api": "^5.2.1",
+    "string-similarity": "^4.0.4",
+    "websocket-stream": "^5.5.2",
+    "youtube-search-api": "^2.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GrandpaAcademy/Cyber-Bot-V2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/GrandpaAcademy/Cyber-Bot-V2/issues"
+  },
+  "homepage": "https://github.com/GrandpaAcademy/Cyber-Bot-V2#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.23.9",
+    "@babel/core": "^7.24.0",
+    "@babel/preset-env": "^7.24.0"
+  }
+}
