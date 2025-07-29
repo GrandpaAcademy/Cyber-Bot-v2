@@ -1,0 +1,78 @@
+# If you want to move down the line, please use \n. e.g: Grandpa\nAcademy.
+# After changed, you have to restart the bot to use.
+# Put the # character at the beginning of each sentence if you don't want the code to run those lines. 
+# New Cyber-v2 Made By GrandpaAcademy 
+
+# includes/listen.js
+
+listen.startLoadEnvironment=Proceed to load the environment variable ...
+listen.loadedEnvironmentThread=Loaded thread environment variable successfully 
+listen.loadedEnvironmentUser=Loaded user environment variable successfully 
+listen.successLoadEnvironment=Loaded environment variable successfully 
+listen.failLoadEnvironment=Can't load environment variable, error: %1
+
+# includes/controller/currencies.js
+
+currencies.needObjectOrArray=Have to be an Array or an Object or maybe both
+currencies.needObject=Have to be an Object
+currencies.needNumber= Have to be an number
+
+# includes/controller/threads.js
+
+threads.needObjectOrArray=Have to be an Array or an Object or maybe both
+threads.needObject=Have to be an Object 
+
+# includes/controller/users.js
+
+users.needObjectOrArray=Have to be an Array or an Object or maybe both
+users.needObject=Have to be an Object
+
+# includes/handle/handleCommand.js
+
+handleCommand.userBanned=You are unable to use bot!\n%1\n%2
+handleCommand.threadBanned=Your thread are unable to use bot!\n%1\n%2
+handleCommand.commandNotExist=The command you used doesn't exist, is that "%1" or not?
+handleCommand.commandThreadBanned=Your thread is unable to use command "%1"
+handleCommand.commandUserBanned=You are unable to use command "%1"
+handleCommand.threadNotAllowNSFW=Your thread is not allowed to use NSFW commands
+handleCommand.cantGetInfoThread=Can't get your thread's info, error: %1
+handleCommand.permissionNotEnough=You have no permission to use command "%1"
+handleCommand.cantSetMessageReaction=Having some unexpected error at setMessageReaction, error: %1
+handleCommand.executeCommand=[ %1 ] Command used: %2 by user: %3 at thread: %4 | Args included: %5 | Processing time: %6ms
+handleCommand.commandError=Having some unexpected error when using command %1, error: %2
+handleCommand.notMatched=⚠This command does not require a prefix to start with.
+handleCommand.noPrefix=This command has no command config "usePrefix" property
+handleCommand.commandNotFound=The command you used doesn't exist.
+handleCommand.notFoundLanguage=The language you used was not found! Please make sure to check out the available languages
+
+# includes/handle/handleCommandEvent.js
+
+handleCommandEvent.moduleError=Having some unexpected error when using command %1, error: %2
+
+# includes/handle/handleCreateDatabase.js
+
+handleCreateDatabase.newThread=new thread: %1
+handleCreateDatabase.newUser=new user %1
+
+# includes/handle/handleEvent.js
+
+handleEvent.executeEvent=[ %1 ] Event was executed: %2 at thread: %3 | Processing time: %4ms
+handleEvent.eventError=Having some error when executing event %1, error: %12
+
+# includes/handle/handleReaction.js
+
+handleReaction.missingValue=Missing value to respond your problem
+handleReaction.executeError=Having some error when responding your problem, error: %1
+
+# includes/handle/handleReply.js
+
+handleReply.missingValue=Missing value to respond your problem
+handleReply.executeError=Having some error when responding your problem, error: %1
+
+# includes/handle/handleSchedule.js
+
+handleSchedule.exectuteError=Having some error when schedule at module %1, error: %2
+
+# utils/index.js
+
+utils.throwError=[!] The command you are using is not syntax correct, please use %1help %2 for more usage details

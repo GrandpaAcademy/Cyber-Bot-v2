@@ -1,0 +1,79 @@
+# BENGALI LANGUAGE (Bangla Bhasha)
+# Apni jodi liner niche jete chan, doya kore \n byabohar korun. Jemon: Grandpa\nAcademy.
+# Poriborton korar pore, apnake byabohar korar jonno bot ti punray chalu korte hobe.
+# Thanks to Grandpa for fix Bengali Translation!
+# GrandpaAcademy aro pathyo jog korechen! Ei file ti na thakle kichu onno file theke drishyoman nao hote pare.
+
+# includes/listen.js
+
+listen.startLoadEnvironment=Environment variable load korte shuru hocche...
+listen.loadedEnvironmentThread=Thread environment variable shofolbhabe load hoyeche
+listen.loadedEnvironmentUser=User environment variable shofolbhabe load hoyeche
+listen.successLoadEnvironment=Environment variable shofolbhabe load hoyeche
+listen.failLoadEnvironment=Environment variable load kora jacche na, error: %1
+
+# includes/controller/currencies.js
+
+currencies.needObjectOrArray=Ekta array ba ekta object ba duita-i hote hobe
+currencies.needObject=Ekta object hote hobe
+currencies.needNumber=Ekta number hote hobe
+
+# includes/controller/threads.js
+
+threads.needObjectOrArray=Ekta array ba ekta object ba duita-i hote hobe
+threads.needObject=Ekta object hote hobe
+
+# includes/controller/users.js
+
+users.needObjectOrArray=Ekta array ba ekta object ba duita-i hote hobe
+users.needObject=Ekta object hote hobe
+
+# includes/handle/handleCommand.js
+
+handleCommand.userBanned=Apni bot byabohar korte parben na!\n%1\n%2
+handleCommand.threadBanned=Apnar thread bot byabohar korte parbe na!\n%1\n%2
+handleCommand.commandNotExist=Apni je command ta byabohar korechen sheta exist kore na, sheta ki "%1" naki?
+handleCommand.commandThreadBanned=Apnar thread "%1" command byabohar korte parbe na
+handleCommand.commandUserBanned=Apni "%1" command byabohar korte parben na
+handleCommand.threadNotAllowNSFW=Apnar thread NSFW command byabohar korar permission nai
+handleCommand.cantGetInfoThread=Apnar thread er info pawa jacche na, error: %1
+handleCommand.permissionNotEnough=Apnar "%1" command byabohar korar kono permission nai
+handleCommand.cantSetMessageReaction=setMessageReaction e kichu unexpected error, error: %1
+handleCommand.executeCommand=[ %1 ] Command byabohrito: %2 user dwara: %3 e thread: %4 | Args include: %5 | Processing time: %6ms
+handleCommand.commandError=Command %1 byabohar korar shomoy kichu unexpected error hocche, error: %2
+handleCommand.notMatched=⚠Ei command er shathe shuru korar jonno ekta prefix er dorkar nai.
+handleCommand.noPrefix=Ei command er kono command configuration "usePrefix" feature nai
+handleCommand.commandNotFound=Apnar byabohrito command ta exist kore na.
+handleCommand.notFoundLanguage=Apnar byabohrito language khuje pawa jay ni! Available language check out nishchit korun
+
+# includes/handle/handleCommandEvent.js
+
+handleCommandEvent.moduleError=Command %1 byabohar korar shomoy kichu unexpected error hocche, error: %2
+
+# includes/handle/handleCreateDatabase.js
+
+handleCreateDatabase.newThread=Notun thread: %1
+handleCreateDatabase.newUser=Notun user %1
+
+# includes/handle/handleEvent.js
+
+handleEvent.executeEvent=[ %1 ] Event ta chalano hoyechilo: %2 thread e: %3 | Processing time: %4ms
+handleEvent.eventError=Event %1 chalanoar shomoy kichu error hocche, error: %2
+
+# includes/handle/handleReaction.js
+
+handleReaction.missingValue=Apnar shomoshar uttor dite missing value
+handleReaction.executeError=Apnar shomoshar uttor deoar shomoy kichu error hocche, error: %1
+
+# includes/handle/handleReply.js
+
+handleReply.missingValue=Apnar shomoshar uttor dite missing value
+handleReply.executeError=Apnar shomoshar uttor deoar shomoy kichu error hocche, error: %1
+
+# includes/handle/handleSchedule.js
+
+handleSchedule.exectuteError=Module %1 e schedule korar shomoy kichu error hocche, error: %2
+
+# utils/index.js
+
+utils.throwError=[!] Apni je command ta byabohar korchen sheta syntax thik noy, aro byaboharer details er jonno please %1help %2 byabohar korun...
