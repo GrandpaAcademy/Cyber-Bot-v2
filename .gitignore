@@ -1,1 +1,10 @@
 node_modules
+appstate.json
+package-lock.json
+
+
+*.py
+*.json
+src/
+src/*.js
+src/*.jsx

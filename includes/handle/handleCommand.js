@@ -23,6 +23,18 @@ module.exports = function ({ api, models, Users, Threads, Currencies, ...rest })
     const args = (body || "").trim().split(/ +/);
     const commandName = args.shift()?.toLowerCase();
     var command = commands.get(commandName);
+
+    // Check for aliases if command not found
+    if (!command) {
+      for (const [name, cmd] of commands) {
+        if (cmd.config.aliases && Array.isArray(cmd.config.aliases)) {
+          if (cmd.config.aliases.includes(commandName)) {
+            command = cmd;
+            break;
+          }
+        }
+      }
+    }
     const replyAD = "[ MODE ] - Only bot admin can use bot";
 
     if (

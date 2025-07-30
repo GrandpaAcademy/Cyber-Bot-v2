@@ -295,6 +295,14 @@ function onBot() {
 
             if (module.handleEvent) global.client.eventRegistered.push(config.name);
             global.client.commands.set(config.name, module);
+
+            // Register aliases if they exist
+            if (config.aliases && Array.isArray(config.aliases)) {
+              for (const alias of config.aliases) {
+                global.client.commands.set(alias, module);
+              }
+            }
+
             try {
               global.loading.log(`${main(`LOADED`)} ${secondary(config.name)} success`, "COMMAND");
             } catch (err) {
