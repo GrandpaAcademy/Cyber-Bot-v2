@@ -8,3 +8,7 @@ package-lock.json
 src/
 src/*.js
 src/*.jsx
+
+data/
+data/*.json
+data/*.txt
