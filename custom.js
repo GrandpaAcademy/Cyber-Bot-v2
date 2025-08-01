@@ -2,133 +2,78 @@ const logger = require('./utils/log');
 const cron = require('node-cron');
 
 module.exports = async ({ api }) => {
-  const minInterval = 5;
-  let lastMessageTime = 0;
-  let messagedThreads = new Set();
-
   const config = {
     autoRestart: {
-      status: false,
-      time: 60,
-      note: 'To avoid problems, enable periodic bot restarts',
+      status: true,
+      time: 60, // Restart every 60 minutes
+      timezone: 'Asia/Dhaka',
+      note: 'Periodic bot restart to maintain stability'
     },
     acceptPending: {
-      status: false,
-      time: 30,
-      note: 'Approve waiting messages after a certain time',
-    },
+      status: true,
+      time: 30, // Check pending requests every 30 minutes
+      timezone: 'Asia/Dhaka',
+      note: 'Auto-approve pending message requests'
+    }
   };
 
   function autoRestart(config) {
     if (config.status) {
+      logger.custom('Auto restart is enabled. Will restart every ' + config.time + ' minutes.', 'CONFIG');
       cron.schedule(`*/${config.time} * * * *`, () => {
-        logger.log('Start rebooting the system!', 'Auto Restart');
+        logger.custom('Initiating system reboot...', 'AUTO RESTART');
         process.exit(1);
+      }, {
+        scheduled: true,
+        timezone: config.timezone
       });
     }
   }
 
-  function acceptPending(config) {
+  async function acceptPending(config) {
     if (config.status) {
+      logger.custom('Auto accept pending is enabled. Will check every ' + config.time + ' minutes.', 'CONFIG');
       cron.schedule(`*/${config.time} * * * *`, async () => {
-        const list = [
-          ...(await api.getThreadList(1, null, ['PENDING'])),
-          ...(await api.getThreadList(1, null, ['OTHER'])),
-        ];
-        if (list[0]) {
-          api.sendMessage('You have been approved for the queue. (This is an automated message)', list[0].threadID);
+        try {
+          // Get pending threads
+          const pending = [
+            ...(await api.getThreadList(10, null, ['PENDING'])),
+            ...(await api.getThreadList(10, null, ['OTHER']))
+          ];
+
+          // Process each pending thread
+          for (const thread of pending) {
+            try {
+              await api.sendMessage(
+                'Your message request has been approved automatically.',
+                thread.threadID
+              );
+              logger.custom(`Approved message request from: ${thread.threadID}`, 'AUTO ACCEPT');
+            } catch (err) {
+              logger.error(`Failed to approve thread ${thread.threadID}: ${err.message}`);
+            }
+          }
+        } catch (error) {
+          logger.error('Error in acceptPending:', error);
         }
+      }, {
+        scheduled: true,
+        timezone: config.timezone
       });
     }
   }
 
+  // Initialize features
   autoRestart(config.autoRestart);
   acceptPending(config.acceptPending);
 
-  // AUTOGREET EVERY 10 MINUTES
-  cron.schedule('*/10 * * * *', () => {
-    const currentTime = Date.now();
-    if (currentTime - lastMessageTime < minInterval) {
-      console.log("Skipping message due to rate limit");
-      return;
-    }
-    api.getThreadList(25, null, ['INBOX'], async (err, data) => {
-      if (err) return console.error("Error [Thread List Cron]: " + err);
-      let i = 0;
-      let j = 0;
-
-      async function message(thread) {
-        try {
-          api.sendMessage({
-            body: `⟩ Thank you for using Cyber-Bot !\n\n⟩ Fork Here: https://github.com/GrandpaAcademy/Cyber-Bot-v2\n\n⟩ Need Help ? \nMessenger: m.me/GrandpaEJ\nFacebook: https://www.facebook.com/GrandpaEJ`
-          }, thread.threadID, (err) => {
-            if (err) return;
-            messagedThreads.add(thread.threadID);
-
-          });
-        } catch (error) {
-          console.error("Error sending a message:", error);
-        }
-      }
-
-      while (j < 20 && i < data.length) {
-        if (data[i].isGroup && data[i].name != data[i].threadID && !messagedThreads.has(data[i].threadID)) {
-          await message(data[i]);
-          j++;
-          const CuD = data[i].threadID;
-          setTimeout(() => {
-            messagedThreads.delete(CuD);
-          }, 1000);
-        }
-        i++;
-      }
-    });
-  }, {
-    scheduled: false, // Set this to false to turn it off
-    timezone: "Asia/Manila"
+  // Error handler for unhandled rejections
+  process.on('unhandledRejection', (reason, promise) => {
+    logger.error('Unhandled Rejection at:', promise, 'reason:', reason);
   });
 
-  // AUTOGREET EVERY 30 MINUTES
-  cron.schedule('*/30 * * * *', () => {
-    const currentTime = Date.now();
-    if (currentTime - lastMessageTime < minInterval) {
-      console.log("Skipping message due to rate limit");
-      return;
-    }
-    api.getThreadList(25, null, ['INBOX'], async (err, data) => {
-      if (err) return console.error("Error [Thread List Cron]: " + err);
-      let i = 0;
-      let j = 0;
-
-      async function message(thread) {
-        try {
-          api.sendMessage({
-            body: `Hey There! How are you? ヾ(＾-＾)ノ`
-          }, thread.threadID, (err) => {
-            if (err) return;
-            messagedThreads.add(thread.threadID);
-
-          });
-        } catch (error) {
-          console.error("Error sending a message:", error);
-        }
-      }
-
-
-      while (j < 20 && i < data.length) {
-        if (data[i].isGroup && data[i].name != data[i].threadID && !messagedThreads.has(data[i].threadID)) {
-          await message(data[i]);
-          j++;
-          const CuD = data[i].threadID;
-          setTimeout(() => {
-            messagedThreads.delete(CuD);
-          }, 1000);
-        }
-        i++;
-      }
-    });
-  }, {
-    scheduled: false, // Set this to false to turn it off
-    timezone: "Asia/Manila"
+  // Error handler for uncaught exceptions
+  process.on('uncaughtException', (error) => {
+    logger.error('Uncaught Exception:', error);
   });
 };
