@@ -8,6 +8,10 @@
     "adminOnly": false,
     "encryptSt": false,
     "removeSt": false,
+    "translation": {
+        "apiURL": "http://localhost:8080/api/translate",
+        "defaultLang": "bn"
+    },
     "UPDATE": {
         "Package": true,
         "EXCLUDED": [
