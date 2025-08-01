@@ -19,9 +19,9 @@ module.exports = async ({ api }) => {
 
   function autoRestart(config) {
     if (config.status) {
-      logger.custom('Auto restart is enabled. Will restart every ' + config.time + ' minutes.', 'CONFIG');
+      logger.log('Auto restart is enabled. Will restart every ' + config.time + ' minutes.', 'CONFIG');
       cron.schedule(`*/${config.time} * * * *`, () => {
-        logger.custom('Initiating system reboot...', 'AUTO RESTART');
+        logger.log('Initiating system reboot...', 'AUTO RESTART');
         process.exit(1);
       }, {
         scheduled: true,
@@ -32,7 +32,7 @@ module.exports = async ({ api }) => {
 
   async function acceptPending(config) {
     if (config.status) {
-      logger.custom('Auto accept pending is enabled. Will check every ' + config.time + ' minutes.', 'CONFIG');
+      logger.log('Auto accept pending is enabled. Will check every ' + config.time + ' minutes.', 'CONFIG');
       cron.schedule(`*/${config.time} * * * *`, async () => {
         try {
           // Get pending threads
@@ -48,13 +48,13 @@ module.exports = async ({ api }) => {
                 'Your message request has been approved automatically.',
                 thread.threadID
               );
-              logger.custom(`Approved message request from: ${thread.threadID}`, 'AUTO ACCEPT');
+              logger.log(`Approved message request from: ${thread.threadID}`, 'AUTO ACCEPT');
             } catch (err) {
-              logger.error(`Failed to approve thread ${thread.threadID}: ${err.message}`);
+              logger.log(`Failed to approve thread ${thread.threadID}: ${err.message}`, 'ERROR');
             }
           }
         } catch (error) {
-          logger.error('Error in acceptPending:', error);
+          logger.log('Error in acceptPending: ' + error.message, 'ERROR');
         }
       }, {
         scheduled: true,
@@ -69,11 +69,11 @@ module.exports = async ({ api }) => {
 
   // Error handler for unhandled rejections
   process.on('unhandledRejection', (reason, promise) => {
-    logger.error('Unhandled Rejection at:', promise, 'reason:', reason);
+    logger.log('Unhandled Rejection: ' + reason, 'ERROR');
   });
 
   // Error handler for uncaught exceptions
   process.on('uncaughtException', (error) => {
-    logger.error('Uncaught Exception:', error);
+    logger.log('Uncaught Exception: ' + error.message, 'ERROR');
   });
 };
