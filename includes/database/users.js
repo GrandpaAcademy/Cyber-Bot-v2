@@ -3,9 +3,14 @@ module.exports = function ({ api }) {
     var path = __dirname + "/data/usersData.json";
 
     try {
-        var usersData = require(path)
+        var usersData = require(path);
+        if (!usersData.users) {
+            usersData = { users: [] };
+            writeFileSync(path, JSON.stringify(usersData, null, 4));
+        }
     } catch {
-        writeFileSync(path, "{}", { flag: 'a+' });
+        usersData = { users: [] };
+        writeFileSync(path, JSON.stringify(usersData, null, 4), { flag: 'a+' });
     }
 
     async function saveData(data) {

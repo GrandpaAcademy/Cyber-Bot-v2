@@ -5,9 +5,14 @@ module.exports = function ({ api }) {
     var path = __dirname + "/data/threadsData.json";
 
     try {
-        var threadsData = require(path)
+        var threadsData = require(path);
+        if (!threadsData.threads) {
+            threadsData = { threads: [] };
+            writeFileSync(path, JSON.stringify(threadsData, null, 4));
+        }
     } catch {
-        writeFileSync(path, "{}", { flag: 'a+' });
+        threadsData = { threads: [] };
+        writeFileSync(path, JSON.stringify(threadsData, null, 4), { flag: 'a+' });
     }
 
     async function getInfo(threadID) {
