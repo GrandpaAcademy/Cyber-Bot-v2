@@ -9,6 +9,11 @@ src/
 src/*.js
 src/*.jsx
 
+!src/events/*
+
+
 data/
 data/*.json
 data/*.txt
+
+ai/
