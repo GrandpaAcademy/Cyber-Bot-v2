@@ -1,68 +1,155 @@
-# CyberBot 🤖<sub><sub>v2.0.0🚀</sub></sub>
+<div align="center">
+  <img src="./assets/logo-16x9.svg" alt="CyberBot Logo" width="400">
+  <h1>CyberBot 🤖</h1>
+  <p><strong>A Modern Facebook Messenger Bot with Advanced Features</strong></p>
+</div>
+
 <p align="center">
-	<a href="https://www.youtube.com/@Grandpa_Academy"><img src="https://img.shields.io/badge/-YouTube-red?style=social"></a>
-		<img src="https://img.shields.io/badge/Nodejs%20Support-20.x-brightgreen.svg?style=flat-square" alt="Nodejs Support v20.x">
-	</a>
-  <!-- TG -->
-  <a href="https://t.me/Grandpa_Academy"><img src="https://img.shields.io/badge/-Telegram-blue?style=social"></a>
+  <strong>English</strong> |
+  <a href="README_bn.md">বাংলা</a>
 </p>
-<!-- fb -->
+
 <p align="center">
+  <a href="https://github.com/GrandpaAcademy/Cyber-Bot-v2/stargazers"><img src="https://img.shields.io/github/stars/GrandpaAcademy/Cyber-Bot-v2?style=flat-square" alt="Stars"></a>
+  <a href="https://github.com/GrandpaAcademy/Cyber-Bot-v2/network/members"><img src="https://img.shields.io/github/forks/GrandpaAcademy/Cyber-Bot-v2?style=flat-square" alt="Forks"></a>
+  <img src="https://img.shields.io/badge/version-2.0.0-blue?style=flat-square" alt="Version">
+  <img src="https://img.shields.io/badge/Node.js-20.x-brightgreen?style=flat-square" alt="Node.js">
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/GrandpaAcademy/Cyber-Bot-v2?style=flat-square" alt="License"></a>
+</p>
+
+<p align="center">
+  <a href="https://www.youtube.com/@Grandpa_Academy"><img src="https://img.shields.io/badge/-YouTube-red?style=social"></a>
+  <a href="https://t.me/Grandpa_Academy"><img src="https://img.shields.io/badge/-Telegram-blue?style=social"></a>
   <a href="https://www.facebook.com/GrandpaEJ"><img src="https://img.shields.io/badge/-Facebook-blue?style=social"></a>
 </p>
 
-A Simple BUpdated version of Cyber Bot v1
+## 📚 Table of Contents
+- [Features](#-features)
+- [Prerequisites](#-prerequisites)
+- [Installation](#-installation)
+- [Configuration](#-configuration)
+- [Command Creation](#-command-creation)
+- [Security](#-security)
+- [Updates](#-updates)
+- [Support](#-support)
+- [Contributing](#-contributing)
+- [License](#-license)
 
-<img align="center" src="./assets/logo-16x9.svg">
+## ✨ Features
 
----
+- 🚀 **Modern Architecture**: Built on Node.js 20.x
+- 🌍 **Multi-language Support**: English and Bengali included
+- 🔒 **Enhanced Security**: Built-in appstate encryption
+- ⚡ **Fast & Efficient**: Optimized for performance
+- 🎯 **Easy to Extend**: Simple command creation system
+- 🛠 **Customizable**: Flexible configuration options
+- 👥 **Group Management**: Advanced group features
+- 🔍 **Command Aliases**: Multiple ways to trigger commands
+- ⏱ **Cooldown System**: Prevent command spam
+- 🔐 **Permission Levels**: User, Admin, and Bot Owner controls
 
-<details>
-  <summary>What's New?</summary>
-  
-  __UPDATE!__
-  - Major fixes!
-  - Fixed FCA now using W3S-FCA!
-  - Bug fixed!
-</details>
+## 📋 Prerequisites
 
-<details>
-  <summary>Languages</summary>
-  
-> - en = English-US
-> - bd = Bengali 
+- Node.js 20.x or higher
+- NPM or Yarn
+- Git
+- Facebook Account
 
-<li>Go to your config.json and set your fav one.</li>
-<li>Default is <b>bangla.</b></li> <li>Set it like this:</li>
+## 📝 Command Creation
 
+CyberBot makes it easy to add new features! Use the template below to create your own commands:
+
+```js
+module.exports.config = {
+  name: "yourcommand",
+  version: "1.0.0",
+  hasPermission: 0, // 0: user, 1: group admin, 2: bot admin
+  credits: "Your Name",
+  description: "Describe what your command does",
+  usePrefix: true,
+  commandCategory: "category",
+  usages: "[usage details]",
+  cooldowns: 5,
+  aliases: ["alias1", "alias2"]
+};
+
+module.exports.run = async function({ api, event, args, getText }) {
+  // Your command logic here
+  api.sendMessage("Hello from yourcommand!", event.threadID, event.messageID);
+};
+
+module.exports.languages = {
+  en: {
+    example: "This is an example message."
+  }
+};
+```
+
+**How to use:**
+- Copy the template above into a new file in `src/commands/`
+- Update the config and logic as needed
+- Restart the bot to load your new command
+
+**Features supported:**
+- Aliases for commands
+- Permission levels (user, group admin, bot admin)
+- Cooldowns
+- Multi-language support
+- Custom categories
+
+
+
+## ⚙️ Configuration
+
+### Language Settings
 ```json
 {
-  "language": "bn",
+  "language": "en",  // "en" for English, "bn" for Bengali
+  "PREFIX": "!",     // Command prefix
+  "adminOnly": false // Set to true to restrict bot to admins only
 }
 ```
-</details>
 
-<details>
-  <summary>Appstate Encryption</summary>
-  
-  ### Security 
-  Are you having an issue about getting your account stolen or hacked? This might due to your appstate provided which is stolen by other users. If you feel unsecure, try setting up *"encryptSt"* to *true* in the **config.json**.
-  
-  ```json
-  {
-    "encrpytSt": true
-  }
-  ```
+### Security Settings
+```json
+{
+  "encryptSt": true,  // Enable appstate encryption
+  "ADMINBOT": ["YOUR_FACEBOOK_UID"]  // Admin UIDs
+}
+```
 
-  Encrypting won't affect the bot process and will only make the appstate harder to be used by thiefs and hackers. Furthermore, it may get laggy when opening the appstate.json after being encrypted but still it is worth a shot.
-  
-</details>
+## 🔒 Security
+
+- Enable `encryptSt` in config.json for enhanced security
+- Keep your `appstate.json` private
+- Regularly update your bot and dependencies
+- Use environment variables for sensitive data
+
+## 🔄 Latest Updates
+
+- Upgraded to W3S-FCA for improved stability
+- Enhanced security features
+- Added command aliases support
+- Improved error handling
+- Bug fixes and performance improvements
+
+## 💬 Support
+
+- [Join our Telegram](https://t.me/Grandpa_Academy)
+- [Subscribe on YouTube](https://www.youtube.com/@Grandpa_Academy)
+- [Follow on Facebook](https://www.facebook.com/GrandpaEJ)
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
+
+Please read our [Contributing Guidelines](CONTRIBUTING.md) for details.
 
 ---
-### RENDER HOSTING
-__=>__ Host your botfile on [render.com](https://dashboard.render.com) to make your file always active.
-<img align="center" src="https://i.ibb.co/DMXyLm3/Picsart-24-02-14-12-25-06-014.jpg">
-</h1>
 
 ## How To Use?
 1. Clone this repo:
@@ -83,5 +170,16 @@ __=>__ Host your botfile on [render.com](https://dashboard.render.com) to make y
 
    npm start
    ```
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 ---
-Copyright © 2025 [Grandpa Academy](https://github.com/GrandpaAcademy) 💝&nbsp; |&nbsp; [Cyber Bot](https://github.com/GrandpaAcademy/Cyber-Bot-v2) 🤖<br>
+
+<p align="center">Made with 💖 by <a href="https://github.com/GrandpaAcademy">Grandpa Academy</a></p>
+
+<p align="center">
+  Copyright © 2025 
+  <a href="https://github.com/GrandpaAcademy">Grandpa Academy</a> |
+  <a href="https://github.com/GrandpaAcademy/Cyber-Bot-v2">Cyber Bot</a>
+</p>
