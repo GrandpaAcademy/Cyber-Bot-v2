@@ -14,6 +14,7 @@ module.exports.config = {
   }
 };
 
+
 module.exports.languages = {
   en: {
     moduleInfo:
@@ -68,7 +69,10 @@ module.exports.run = async function ({ api, event, args, getText }) {
   const { commands } = global.client;
   const { threadID, messageID } = event;
   const commandArg = (args[0] || "").toLowerCase();
-  const command = commands.get(commandArg);
+  // Find command by name or alias
+  let command = commands.get(commandArg);
+  if (!command) {
+    command = Array.from(commands.values()).find(cmd => Array.isArray(cmd.config.aliases) && cmd.config.aliases.map(a => a.toLowerCase()).includes(commandArg));
   const threadSetting = global.data.threadData.get(parseInt(threadID)) || {};
   const { autoUnsend, delayUnsend } = global.configModule[this.config.name];
   const prefix = threadSetting.hasOwnProperty("PREFIX")
@@ -155,9 +159,12 @@ module.exports.run = async function ({ api, event, args, getText }) {
     info += `Version: ${details.version || "N/A"}\n`;
     info += `Credits: ${details.credits || "N/A"}\n`;
     info += `Category: ${details.commandCategory || "N/A"}\n`;
-    info += `Usage: ${details.usages || "N/A"}\n`;
+    info += `Usage: ${Array.isArray(details.usages) ? details.usages.join("\n- ") : details.usages || "N/A"}\n`;
     info += `Cooldown: ${details.cooldowns || "N/A"}s\n`;
     info += `Permission: ${details.hasPermission === 0 ? getText("user") : details.hasPermission === 1 ? getText("adminGroup") : getText("adminBot")}\n`;
+    if (details.aliases && Array.isArray(details.aliases) && details.aliases.length) {
+      info += `Aliases: ${details.aliases.join(", ")}\n`;
+    }
     if (details.envConfig) {
       info += `AutoUnsend: ${details.envConfig.autoUnsend ? "Yes" : "No"}\n`;
       info += `DelayUnsend: ${details.envConfig.delayUnsend || "N/A"}s\n`;
