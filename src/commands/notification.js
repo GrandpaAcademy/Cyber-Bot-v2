@@ -7,7 +7,7 @@ module.exports.config = {
  hasPermssion: 2,
  credits: "MAHBUB SHAON",
  description: "send notification In all groups ",
- commandCategory: "notification",
+ commandCategory: "Admin",
  usages: "[msg]",
  cooldowns: 5,
 }
