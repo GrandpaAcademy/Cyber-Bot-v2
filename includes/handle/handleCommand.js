@@ -177,12 +177,7 @@ module.exports = function ({ api, models, Users, Threads, Currencies, ...rest })
 
     if (command && command.config) {
       if (typeof command.config.usePrefix === "undefined") {
-        api.sendMessage(
-          global.getText("handleCommand", "noPrefix", command.config.name),
-          event.threadID,
-          event.messageID,
-        );
-        return;
+        command.config.usePrefix = true;
       }
     }
 
