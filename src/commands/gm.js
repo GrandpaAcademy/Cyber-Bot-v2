@@ -19,6 +19,7 @@ module.exports.config = {
     "admin [add/remove] [@tag]"
   ],
   cooldowns: 5,
+  aliases: ["gm", "group", "groupmanager"],
   dependencies: {
     "fs-extra": "",
     "axios": "",
@@ -55,6 +56,7 @@ module.exports.run = async function({ api, event, args, Threads }) {
     );
   }
 
+  if (!args.length) args = [""];
   const command = args[0].toLowerCase();
   const params = args.slice(1).join(" ");
 
@@ -65,34 +67,27 @@ module.exports.run = async function({ api, event, args, Threads }) {
         await api.changeThreadEmoji(params, threadID);
         break;
       }
-
       case "name": {
         if (!params) return api.sendMessage("⚠️ Please provide a new group name!", threadID, messageID);
         await api.setTitle(params, threadID);
         break;
       }
-
       case "setpic": {
         if (!messageReply || !messageReply.attachments || !messageReply.attachments[0]) {
           return api.sendMessage("⚠️ Please reply to an image!", threadID, messageID);
         }
-        
         const imgUrl = messageReply.attachments[0].url;
         const imgResponse = await axios.get(imgUrl, { responseType: "arraybuffer" });
         fs.writeFileSync(__dirname + "/cache/group_pic.png", Buffer.from(imgResponse.data));
-        
         await api.changeGroupImage(fs.createReadStream(__dirname + "/cache/group_pic.png"), threadID);
         fs.unlinkSync(__dirname + "/cache/group_pic.png");
         break;
       }
-
       case "getpic": {
         const threadInfo = await api.getThreadInfo(threadID);
         if (!threadInfo.imageSrc) return api.sendMessage("⚠️ This group doesn't have a photo!", threadID, messageID);
-        
         const imgResponse = await axios.get(threadInfo.imageSrc, { responseType: "arraybuffer" });
         fs.writeFileSync(__dirname + "/cache/group_pic.png", Buffer.from(imgResponse.data));
-        
         await api.sendMessage(
           { 
             body: "🖼️ Current group photo:",
@@ -103,17 +98,14 @@ module.exports.run = async function({ api, event, args, Threads }) {
         );
         break;
       }
-
       case "theme": {
         if (!params) return api.sendMessage("⚠️ Please provide a theme code!", threadID, messageID);
         await api.changeThreadColor(params, threadID);
         break;
       }
-
       case "info": {
         const threadInfo = await api.getThreadInfo(threadID);
-        const adminList = threadInfo.adminIDs.map(admin => `→ ${threadInfo.nicknames[admin.id] || "Facebook User"}`).join("\\n");
-        
+        const adminList = threadInfo.adminIDs.map(admin => `→ ${threadInfo.nicknames[admin.id] || "Facebook User"}`).join("\n");
         const info = 
           "📊 𝗚𝗥𝗢𝗨𝗣 𝗜𝗡𝗙𝗢𝗥𝗠𝗔𝗧𝗜𝗢𝗡\n\n" +
           `Name: ${threadInfo.threadName}\n` +
@@ -124,11 +116,9 @@ module.exports.run = async function({ api, event, args, Threads }) {
           `Message Count: ${threadInfo.messageCount}\n` +
           `Approval Mode: ${threadInfo.approvalMode ? "On" : "Off"}\n\n` +
           "👑 𝗔𝗗𝗠𝗜𝗡 𝗟𝗜𝗦𝗧:\n" + adminList;
-
         await api.sendMessage(info, threadID, messageID);
         break;
       }
-
       case "notify": {
         const state = params.toLowerCase();
         if (state !== "on" && state !== "off") {
@@ -137,7 +127,6 @@ module.exports.run = async function({ api, event, args, Threads }) {
         await api.changeGroupNotifications(threadID, state === "on");
         break;
       }
-
       case "inbox": {
         const state = params.toLowerCase();
         if (state !== "on" && state !== "off") {
@@ -146,7 +135,6 @@ module.exports.run = async function({ api, event, args, Threads }) {
         await api.changeGroupMessageSettings(threadID, state === "on" ? "INBOX" : "MESSAGE_REQUESTS");
         break;
       }
-
       case "approval": {
         const state = params.toLowerCase();
         if (state !== "on" && state !== "off") {
@@ -155,23 +143,25 @@ module.exports.run = async function({ api, event, args, Threads }) {
         await api.changeGroupApprovalMode(threadID, state === "on");
         break;
       }
-
       case "admin": {
         const action = args[1]?.toLowerCase();
         const mentions = Object.keys(event.mentions);
-
         if (!action || !mentions.length || (action !== "add" && action !== "remove")) {
           return api.sendMessage("⚠️ Please specify action (add/remove) and tag the user!", threadID, messageID);
         }
-
         for (const userID of mentions) {
           await api.changeAdminStatus(threadID, userID, action === "add");
         }
         break;
       }
-
-      default:
+      default: {
+        // Check for usage help
+        const usageList = module.exports.config.usages;
+        if (usageList && usageList.includes(command)) {
+          return api.sendMessage(`Usage: gm ${command}\nDescription: ${module.exports.config.description}`, threadID, messageID);
+        }
         return api.sendMessage("⚠️ Invalid command! Use 'gm' to see available commands.", threadID, messageID);
+      }
     }
 
     // Success message
