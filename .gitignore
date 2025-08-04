@@ -5,11 +5,6 @@ package-lock.json
 
 *.py
 *.json
-src/
-src/*.js
-src/*.jsx
-
-!src/events/*
 
 
 data/
