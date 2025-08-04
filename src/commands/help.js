@@ -1,6 +1,6 @@
 module.exports.config = {
   name: "help",
-  version: "2.0.0",
+  version: "2.0.1",
   hasPermission: 0,
   credits: "GrandpaEJ",
   description: "Beginner's Guide",
@@ -73,6 +73,7 @@ module.exports.run = async function ({ api, event, args, getText }) {
   let command = commands.get(commandArg);
   if (!command) {
     command = Array.from(commands.values()).find(cmd => Array.isArray(cmd.config.aliases) && cmd.config.aliases.map(a => a.toLowerCase()).includes(commandArg));
+  }
   const threadSetting = global.data.threadData.get(parseInt(threadID)) || {};
   const { autoUnsend, delayUnsend } = global.configModule[this.config.name];
   const prefix = threadSetting.hasOwnProperty("PREFIX")
