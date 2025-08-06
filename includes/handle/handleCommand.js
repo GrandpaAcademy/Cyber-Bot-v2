@@ -11,7 +11,7 @@ module.exports = function ({ api, models, Users, Threads, Currencies, ...rest })
     }
 
     const dateNow = Date.now();
-    const time = moment.tz("Asia/Manila").format("HH:MM:ss DD/MM/YYYY");
+    const time = moment.tz("Asia/Dhaka").format("HH:MM:ss DD/MM/YYYY");
     const { allowInbox, PREFIX, ADMINBOT, DeveloperMode, adminOnly } = global.config;
     const { userBanned, threadBanned, threadInfo, commandBanned } = global.data;
     const { commands } = global.client;
