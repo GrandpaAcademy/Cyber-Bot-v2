@@ -24,10 +24,42 @@ module.exports = function ({ api, models, Users, Threads, Currencies, ...rest })
     const commandName = args.shift()?.toLowerCase();
     var command = commands.get(commandName);
     
-    // Apply default configuration values if needed
+    // Normalize command structure to support both formats
     if (command) {
       const defaultConfig = global.config.defaultCommandConfig || {};
       const path = require('path');
+
+      // Handle new format (module.exports = { config, langs, onStart })
+      if (!command.config && command.onStart) {
+        const newFormat = command;
+        command = {
+          config: {
+            name: newFormat.config.name,
+            version: newFormat.config.version,
+            hasPermssion: newFormat.config.role || 0,
+            credits: newFormat.config.author,
+            description: typeof newFormat.config.description === 'object' 
+              ? newFormat.config.description.en 
+              : newFormat.config.description,
+            usePrefix: true,
+            commandCategory: newFormat.config.category,
+            usages: newFormat.config.guide?.en || '',
+            cooldowns: newFormat.config.countDown || 5,
+            languages: newFormat.langs || {}
+          },
+          run: async function({ api, event, getText }) {
+            const message = {
+              reply: (text) => api.sendMessage(text, event.threadID, event.messageID),
+              unsend: (msgId) => api.unsendMessage(msgId)
+            };
+            const getLang = (key) => {
+              const lang = global.config.language || 'en';
+              return (newFormat.langs[lang] && newFormat.langs[lang][key]) || key;
+            };
+            return newFormat.onStart({ message, event, api, getLang });
+          }
+        };
+      }
       
       // Use filename as command name if not specified
       if (!command.config.name) {
