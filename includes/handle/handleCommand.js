@@ -23,6 +23,32 @@ module.exports = function ({ api, models, Users, Threads, Currencies, ...rest })
     const args = (body || "").trim().split(/ +/);
     const commandName = args.shift()?.toLowerCase();
     var command = commands.get(commandName);
+    
+    // Apply default configuration values if needed
+    if (command) {
+      const defaultConfig = global.config.defaultCommandConfig || {};
+      const path = require('path');
+      
+      // Use filename as command name if not specified
+      if (!command.config.name) {
+        const filePath = command.config.__filename || '';
+        command.config.name = path.basename(filePath, path.extname(filePath));
+      }
+      
+      // Apply force credit if enabled
+      if (global.config.forceCredit === true) {
+        command.config = {
+          ...defaultConfig,
+          ...command.config,
+          credits: global.config.defaultCredit || defaultConfig.credits
+        };
+      } else {
+        command.config = {
+          ...defaultConfig,
+          ...command.config
+        };
+      }
+      };
 
     // Check for aliases if command not found
     if (!command) {
