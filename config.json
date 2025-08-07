@@ -8,6 +8,19 @@
     "adminOnly": false,
     "encryptSt": false,
     "removeSt": false,
+    "defaultCommandConfig": {
+        "version": "1.0.0",
+        "hasPermssion": 0,
+        "credits": "GrandpaAcademy",
+        "description": "No description provided",
+        "usePrefix": true,
+        "commandCategory": "other",
+        "usages": "",
+        "cooldowns": 5,
+        "aliases": []
+    },
+    "forceCredit": true,
+    "defaultCredit": "GrandpaAcademy",
     "translation": {
         "apiURL": "http://localhost:8080/api/translate",
         "defaultLang": "bn"
