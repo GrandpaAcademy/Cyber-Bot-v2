@@ -98,6 +98,35 @@ global.data = new Object({
   allThreadID: new Array()
 });
 
+// Create required directories
+const requiredDirs = [
+  './src/events/cache',
+  './cache',
+  './includes/cache'
+];
+
+for (const dir of requiredDirs) {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+    logger.log(`Created directory: ${dir}`, "SETUP");
+  }
+}
+
+// Initialize cache files if they don't exist
+const cacheFiles = {
+  './src/events/cache/emoji.json': {
+    emoji: { standard: {}, custom: {} },
+    lastUpdated: 0
+  }
+};
+
+for (const [file, defaultContent] of Object.entries(cacheFiles)) {
+  if (!fs.existsSync(file)) {
+    fs.writeFileSync(file, JSON.stringify(defaultContent, null, 2));
+    logger.log(`Created cache file: ${file}`, "SETUP");
+  }
+}
+
 // ────────────────── //
 // -- LOAD THEMES -- //
 const { getThemeColors } = require("./utils/log");
