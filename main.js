@@ -294,12 +294,18 @@ function onBot() {
             }
 
             if (module.handleEvent) global.client.eventRegistered.push(config.name);
-            global.client.commands.set(config.name, module);
+            
+            // Store filename in config for fallback name
+            module.config.__filename = file;
+            
+            global.client.commands.set(config.name || path.basename(file, '.js'), module);
 
             // Register aliases if they exist
             if (config.aliases && Array.isArray(config.aliases)) {
               for (const alias of config.aliases) {
-                global.client.commands.set(alias, module);
+                const aliasModule = {...module};
+                aliasModule.config = {...module.config};
+                global.client.commands.set(alias, aliasModule);
               }
             }
 
