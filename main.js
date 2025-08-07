@@ -296,9 +296,9 @@ function onBot() {
             if (module.handleEvent) global.client.eventRegistered.push(config.name);
             
             // Store filename in config for fallback name
-            module.config.__filename = file;
+            module.config.__filename = command;
             
-            global.client.commands.set(config.name || path.basename(file, '.js'), module);
+            global.client.commands.set(config.name || path.basename(command, '.js'), module);
 
             // Register aliases if they exist
             if (config.aliases && Array.isArray(config.aliases)) {

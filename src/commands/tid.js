@@ -8,6 +8,7 @@ module.exports.config = {
 	usages: "tid",
 	cooldowns: 5, 
 	dependencies: '',
+	usePrefix: true
 };
 
 module.exports.run = async function({ api, event }) {

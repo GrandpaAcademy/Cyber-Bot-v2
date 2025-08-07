@@ -6,7 +6,8 @@ module.exports.config = {
   description: "Make friends via Facebook id",
   commandCategory: "bot id",
   usages: "uid",
-  cooldowns: 0
+  cooldowns: 0,
+  usePrefix: true
 };
 
 
