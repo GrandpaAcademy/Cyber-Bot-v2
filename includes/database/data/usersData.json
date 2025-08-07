@@ -4967,5 +4967,29 @@
             "timestamp": 1754303602868
         },
         "lastUpdate": 1754303602868
+    },
+    "100089660775474": {
+        "userID": "100089660775474",
+        "money": 0,
+        "exp": 0,
+        "createTime": {
+            "timestamp": 1754577702970
+        },
+        "data": {
+            "timestamp": 1754577702970
+        },
+        "lastUpdate": 1754577702970
+    },
+    "100001039692046": {
+        "userID": "100001039692046",
+        "money": 0,
+        "exp": 0,
+        "createTime": {
+            "timestamp": 1754577728478
+        },
+        "data": {
+            "timestamp": 1754577728478
+        },
+        "lastUpdate": 1754577728478
     }
 }

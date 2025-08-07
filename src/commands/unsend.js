@@ -1,33 +1,29 @@
-module.exports = {
-	config: {
-		name: "unsend",
-		version: "1.2",
-		author: "NTKhang",
-		countDown: 5,
-		role: 0,
-		description: {
-			vi: "Gỡ tin nhắn của bot",
-			en: "Unsend bot's message"
-		},
-		category: "box chat",
-		guide: {
-			vi: "reply tin nhắn muốn gỡ của bot và gọi lệnh {pn}",
-			en: "reply the message you want to unsend and call the command {pn}"
-		}
-	},
-
-	langs: {
-		vi: {
-			syntaxError: "Vui lòng reply tin nhắn muốn gỡ của bot"
-		},
-		en: {
-			syntaxError: "Please reply the message you want to unsend"
-		}
-	},
-
-	onStart: async function ({ message, event, api, getLang }) {
-		if (!event.messageReply || event.messageReply.senderID != api.getCurrentUserID())
-			return message.reply(getLang("syntaxError"));
-		message.unsend(event.messageReply.messageID);
-	}
+module.exports.config = {
+	name: "unsend",
+	version: "1.0.1",
+	hasPermssion: 0,
+	credits: "Mirai Team",
+	description: "Unsend bot's messages",
+	usePrefix: true,
+	commandCategory: "message",
+	usages: "unsend",
+	cooldowns: 0,
+	aliases: ["rem", "uns"]
 };
+
+module.exports.run = function({ api, event, getText }) {
+	if (!event.messageReply) {
+		return api.sendMessage(getText("missingReply"), event.threadID, event.messageID);
+	}
+
+	if (event.messageReply.senderID != api.getCurrentUserID()) return api.sendMessage(getText("returnCant"), event.threadID, event.messageID);
+	
+	return api.unsendMessage(event.messageReply.messageID);
+}
+
+module.exports.languages = {
+	"en": {
+		"returnCant": "Can't remove other people's messages.",
+		"missingReply": "You can't unsend a message out of nowhere. Please reply to a message first."
+	}
+}
