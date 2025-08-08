@@ -46,7 +46,7 @@ module.exports.run = async function({ api, event, Users }) {
 
     // Choose GIF based on whether member was kicked or left
     const gifName = isKicked ? 'kicked.gif' : 'leave.gif';
-    const gifPath = path.join(__dirname, '..', '..', 'assets', gifName);
+    const gifPath = path.join(__dirname, '..', '..', 'assets','gifs', gifName);
     
     // Check if GIF exists
     if (fs.existsSync(gifPath)) {

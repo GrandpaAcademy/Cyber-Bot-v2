@@ -24,7 +24,7 @@ module.exports.run = async function({ api, event, Users }) {
       event.logMessageData.addedParticipants.some(i => i.userFbId == api.getCurrentUserID())) {
     
     // Bot welcome message
-    const gifPath = path.join(__dirname, '..','..','assets', 'join.gif');
+    const gifPath = path.join(__dirname, '..','..','assets','gifs', 'join.gif');
     
     return api.sendMessage(
       {
