@@ -105,7 +105,7 @@ module.exports = function ({ api }) {
     Currencies,
   };
 
-  const handleCommand = require("./handle/handleCommand")(runObj);
+  const handleAI = require("./handle/handleAI")(runObj);
   const handleCommandEvent = require("./handle/handleCommandEvent")(runObj);
   const handleReply = require("./handle/handleReply")(runObj);
   const handleReaction = require("./handle/handleReaction")(runObj);
@@ -135,7 +135,7 @@ module.exports = function ({ api }) {
       case "message_reply":
       case "message_unsend":
         handleCreateDatabase(listenObj);
-        handleCommand(listenObj);
+        handleAI(listenObj);
         handleReply(listenObj);
         handleCommandEvent(listenObj);
         break;

@@ -12,3 +12,8 @@ data/*.json
 data/*.txt
 
 ai/
+
+includes/database/*
+database/*
+database/
+config.json
