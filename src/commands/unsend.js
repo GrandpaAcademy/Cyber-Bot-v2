@@ -11,14 +11,14 @@ module.exports.config = {
 	aliases: ["rem", "uns"]
 };
 
-module.exports.run = function({ api, event, getText }) {
+module.exports.run = async function({ api, event, getText }) {
 	if (!event.messageReply) {
-		return api.sendMessage(getText("missingReply"), event.threadID, event.messageID);
+		return await api.sendMessage(getText("missingReply"), event.threadID, null, false);
 	}
 
-	if (event.messageReply.senderID != api.getCurrentUserID()) return api.sendMessage(getText("returnCant"), event.threadID, event.messageID);
+	if (event.messageReply.senderID != api.getCurrentUserID()) return await api.sendMessage(getText("returnCant"), event.threadID, null, false);
 	
-	return api.unsendMessage(event.messageReply.messageID);
+	return await api.unsendMessage(event.messageReply.messageID);
 }
 
 module.exports.languages = {

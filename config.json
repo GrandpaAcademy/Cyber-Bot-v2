@@ -40,10 +40,10 @@
   "BOTNAME": "SORA BOT",
   "PREFIX": "?",
   "ADMINBOT": [
-    "61575900132985"
+    "100002672611442"
   ],
   "OWNER": [
-    "61575900132985"
+    "100002672611442"
   ],
   "DESIGN": {
     "Title": "Cyber-Bot",
@@ -55,6 +55,8 @@
     }
   },
   "APPSTATEPATH": "appstate.json",
+  "GOOGLE_API_KEY": "AIzaSyBXb6xuESkvPx0Pqo9TQor6hyO11uTKXJQ",
+  "OPENAI_API_KEY": "unused",
   "DEL_FUNCTION": false,
   "ADD_FUNCTION": true,
   "FCAOption": {

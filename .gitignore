@@ -17,3 +17,6 @@ includes/database/*
 database/*
 database/
 config.json
+cache/*
+
+bela/

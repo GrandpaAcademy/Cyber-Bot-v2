@@ -18,5 +18,5 @@ module.exports.run = async function({ api, event }) {
   const days = Math.floor(hours / 24);
 
   const uptimeString = `${days}d ${hours % 24}h ${minutes % 60}m ${seconds % 60}s`;
-  api.sendMessage(`Bot has been running for: ${uptimeString}`, event.threadID, event.messageID);
+  await api.sendMessage(`Bot has been running for: ${uptimeString}`, event.threadID, null, false);
 };

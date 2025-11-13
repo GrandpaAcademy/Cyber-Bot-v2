@@ -49,7 +49,7 @@ module.exports.config = {
 module.exports.run = async function({ api, args, Users, event, Threads, utils, client }) {
 	let {messageID, threadID, senderID} = event;
 	var info = await api.getThreadInfo(threadID);
-	if (!info.adminIDs.some(item => item.id == api.getCurrentUserID())) return api.sendMessage('The bot needs group admin rights to use this command\nPlease add and try again!', threadID, messageID);
+	if (!info.adminIDs.some(item => item.id == api.getCurrentUserID())) return await api.sendMessage('The bot needs group admin rights to use this command\nPlease add and try again!', threadID, null, false);
 	var fs = require("fs-extra");
 	
 	if (!fs.existsSync(__dirname + `/cache/bans.json`)) {
@@ -71,12 +71,12 @@ module.exports.run = async function({ api, args, Users, event, Threads, utils, c
   	if(!args[1]) {
   		var msg = "";
   		var mywarn = bans.warns[threadID][senderID];
-  		if(!mywarn) return api.sendMessage('✅You have never been warned', threadID, messageID);
+  		if(!mywarn) return await api.sendMessage('✅You have never been warned', threadID, null, false);
   		var num = 1;
   		for(let reasonwarn of mywarn) {
   			msg += `reasonwarn\n`;
   		}
-  		api.sendMessage(`❎You have been warned for the reason : ${msg}`, threadID, messageID);
+  		await api.sendMessage(`❎You have been warned for the reason : ${msg}`, threadID, null, false);
   	}
   	else if(Object.keys(event.mentions).length != 0) {
   		var message = "";
@@ -95,7 +95,7 @@ module.exports.run = async function({ api, args, Users, event, Threads, utils, c
   			}
   			message += "⭐️"+name+" :"+msg+"";
   		}
-  		api.sendMessage(message, threadID, messageID);
+  		await api.sendMessage(message, threadID, null, false);
   	}
   	
   	else if(args[1] == "all") {
@@ -108,19 +108,20 @@ module.exports.run = async function({ api, args, Users, event, Threads, utils, c
   			}
   			allwarn += `${name} : ${msg}\n`;
   		}
-  		allwarn == "" ? api.sendMessage("✅No one in your group has been warned yet", threadID, messageID) : api.sendMessage("List of members who have been warned:\n"+allwarn, threadID, messageID);
+  		if (allwarn == "") await api.sendMessage("✅No one in your group has been warned yet", threadID, null, false);
+  		else await api.sendMessage("List of members who have been warned:\n"+allwarn, threadID, null, false);
   	}
   }
   
   else if(args[0] == "unban") {
   	var id = parseInt(args[1]), mybox = bans.banned[threadID];
   	var info = await api.getThreadInfo(threadID);
-	if (!info.adminIDs.some(item => item.id == senderID) && !(global.config.ADMINBOT).includes(senderID)) return api.sendMessage('❎Right cunt border!', threadID, messageID);
+	if (!info.adminIDs.some(item => item.id == senderID) && !(global.config.ADMINBOT).includes(senderID)) return await api.sendMessage('❎Right cunt border!', threadID, null, false);
 	
-  	if(!id) return api.sendMessage("❎Need to enter the id of the person to be removed from the banned list of the group", threadID, messageID);
+  	if(!id) return await api.sendMessage("❎Need to enter the id of the person to be removed from the banned list of the group", threadID, null, false);
   	bans.banned;
-  	if(!mybox.includes(id)) return api.sendMessage("✅This person hasn't been banned from your group yet", threadID, messageID);
-			api.sendMessage(`✅Removed the member with id ${id} from the group banned list`, threadID, messageID);
+  	if(!mybox.includes(id)) return await api.sendMessage("✅This person hasn't been banned from your group yet", threadID, null, false);
+			await api.sendMessage(`✅Removed the member with id ${id} from the group banned list`, threadID, null, false);
 			mybox.splice(mybox.indexOf(id), 1);
 			delete bans.warns[threadID][id]
 			fs.writeFileSync(__dirname + `/cache/bans.json`, JSON.stringify(bans, null, 2));
@@ -133,16 +134,17 @@ module.exports.run = async function({ api, args, Users, event, Threads, utils, c
   		var name = (await api.getUserInfo(iduser))[iduser].name;
   		msg += "╔Name: " + name + "\n╚ID: " + iduser + "\n";
   	}
-  	msg == "" ? api.sendMessage("✅No one in your group has been banned from the group yet", threadID, messageID) : api.sendMessage("❎Members who have been banned from the group:\n"+msg, threadID, messageID);
+  	if (msg == "") await api.sendMessage("✅No one in your group has been banned from the group yet", threadID, null, false);
+  	else await api.sendMessage("❎Members who have been banned from the group:\n"+msg, threadID, null, false);
   }
   else if(args[0] == "reset") {
   	var info = await api.getThreadInfo(threadID);
-	if (!info.adminIDs.some(item => item.id == senderID) && !(global.config.ADMINBOT).includes(senderID)) return api.sendMessage('❎Right cunt border!', threadID, messageID);
+	if (!info.adminIDs.some(item => item.id == senderID) && !(global.config.ADMINBOT).includes(senderID)) return await api.sendMessage('❎Right cunt border!', threadID, null, false);
   	
   	bans.warns[threadID] = {};
   	bans.banned[threadID] = [];
   	fs.writeFileSync(__dirname + `/cache/bans.json`, JSON.stringify(bans, null, 2));
-  	api.sendMessage("Reset all data in your group", threadID, messageID);
+  	await api.sendMessage("Reset all data in your group", threadID, null, false);
   }
   	 //◆━━━━━━━━━◆WARN◆━━━━━━━━━◆\\
   	 else{ 
@@ -150,7 +152,7 @@ module.exports.run = async function({ api, args, Users, event, Threads, utils, c
    
        //◆━━━━━━◆get iduser and reason<<<<<<<<\\
        var info = await api.getThreadInfo(threadID);
-	if (!info.adminIDs.some(item => item.id == senderID) && !(global.config.ADMINBOT).includes(senderID)) return api.sendMessage('Right cunt border!', threadID, messageID);
+	if (!info.adminIDs.some(item => item.id == senderID) && !(global.config.ADMINBOT).includes(senderID)) return await api.sendMessage('Right cunt border!', threadID, null, false);
   var reason = "";
 		  if (event.type == "message_reply") {
 		  	var iduser = [];
@@ -183,7 +185,7 @@ module.exports.run = async function({ api, args, Users, event, Threads, utils, c
 		for(let iid of iduser) {
 			var id = parseInt(iid);
 			if(id == api.getCurrentUserID()) {
-				api.sendMessage("Cannot ban the bot owner.", threadID, messageID);
+				await api.sendMessage("Cannot ban the bot owner.", threadID, null, false);
 				continue;
 			}
 			var nametag = (await api.getUserInfo(id))[id].name;
@@ -214,7 +216,7 @@ module.exports.run = async function({ api, args, Users, event, Threads, utils, c
 		
 		}//for
 
-		api.sendMessage({body: `Banned members ${arrayname.join(", ")} permanently leave the group for the reason: ${reason}`, mentions: arraytag}, threadID, messageID);
+		await api.sendMessage({body: `Banned members ${arrayname.join(", ")} permanently leave the group for the reason: ${reason}`, mentions: arraytag}, threadID, null, false);
 		fs.writeFileSync(__dirname + `/cache/bans.json`, JSON.stringify(bans, null, 2));
 }
   

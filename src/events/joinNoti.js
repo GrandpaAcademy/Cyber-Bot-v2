@@ -26,7 +26,7 @@ module.exports.run = async function({ api, event, Users }) {
     // Bot welcome message
     const gifPath = path.join(__dirname, '..','..','assets','gifs', 'join.gif');
     
-    return api.sendMessage(
+    return await api.sendMessage(
       {
         body: `⚡️ Connected to: ${threadName}\n\n` +
               `🤖 Bot Status: Online\n` +
@@ -36,7 +36,9 @@ module.exports.run = async function({ api, event, Users }) {
               `Type ${global.config.PREFIX}help to see commands`,
         attachment: fs.createReadStream(gifPath)
       },
-      threadID
+      threadID,
+      null,
+      false
     );
   }
 
@@ -79,20 +81,24 @@ module.exports.run = async function({ api, event, Users }) {
     // Send welcome message with GIF
     const gifPath = path.join(__dirname, '..','..','assets', 'join.gif');
     
-    return api.sendMessage(
+    return await api.sendMessage(
       {
         body: welcomeMsg,
         attachment: fs.createReadStream(gifPath),
         mentions
       },
-      threadID
+      threadID,
+      null,
+      false
     );
 
   } catch (error) {
     console.error('Welcome message error:', error);
-    return api.sendMessage(
+    return await api.sendMessage(
       "⚠️ An error occurred while welcoming new members.",
-      threadID
+      threadID,
+      null,
+      false
     );
   }
 };

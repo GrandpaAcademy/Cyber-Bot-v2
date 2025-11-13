@@ -50,16 +50,18 @@ module.exports.run = async function({ api, event, Users }) {
     
     // Check if GIF exists
     if (fs.existsSync(gifPath)) {
-      return api.sendMessage(
+      return await api.sendMessage(
         {
           body: leaveMsg,
           attachment: fs.createReadStream(gifPath)
         },
-        threadID
+        threadID,
+        null,
+        false
       );
     } else {
       // Send message without GIF if file doesn't exist
-      return api.sendMessage(leaveMsg, threadID);
+      return await api.sendMessage(leaveMsg, threadID, null, false);
     }
 
   } catch (error) {
@@ -69,9 +71,9 @@ module.exports.run = async function({ api, event, Users }) {
     try {
       const name = leftParticipantFbId;
       const simpleMsg = `Member ${name} has ${event.author != leftParticipantFbId ? "been removed from" : "left"} the group.`;
-      return api.sendMessage(simpleMsg, threadID);
+      return await api.sendMessage(simpleMsg, threadID, null, false);
     } catch (err) {
-      return api.sendMessage("⚠️ A member has left the group.", threadID);
+      return await api.sendMessage("⚠️ A member has left the group.", threadID, null, false);
     }
   }
 };

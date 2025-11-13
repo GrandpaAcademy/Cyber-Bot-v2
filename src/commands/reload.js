@@ -20,7 +20,7 @@ module.exports.run = async function({ api, event, args }) {
 
   // Check if bot admin
   if (!global.config.ADMINBOT.includes(senderID)) {
-    return api.sendMessage("You don't have permission to use this command.", threadID, messageID);
+    return await api.sendMessage("You don't have permission to use this command.", threadID, null, false);
   }
 
   try {
@@ -121,8 +121,8 @@ module.exports.run = async function({ api, event, args }) {
       }
     }
 
-    api.sendMessage(`Reloaded ${global.client.commands.size} commands successfully.`, threadID, messageID);
+    await api.sendMessage(`Reloaded ${global.client.commands.size} commands successfully.`, threadID, null, false);
   } catch (error) {
-    api.sendMessage(`Error reloading commands: ${error.message}`, threadID, messageID);
+    await api.sendMessage(`Error reloading commands: ${error.message}`, threadID, null, false);
   }
 };

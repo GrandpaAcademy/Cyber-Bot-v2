@@ -1,7 +1,7 @@
 module.exports = function ({api ,models, Users, Threads, Currencies, ...rest }) {
     const logger = require("../../utils/log.js");
    	const moment = require("moment");
-    return function ({ event, ...rest2 }) {
+    return async function ({ event, ...rest2 }) {
         const timeStart = Date.now()
         const time = moment.tz("Asia/Dhaka").format("HH:MM:ss L");
         const { userBanned, threadBanned } = global.data;
@@ -25,8 +25,8 @@ module.exports = function ({api ,models, Users, Threads, Currencies, ...rest }) 
                     Obj.Users= Users 
                     Obj.Threads = Threads
                     Obj.Currencies = Currencies 
-                    eventRun.run(Obj);
-                    if (DeveloperMode == !![]) 
+                    await eventRun.run(Obj);
+                    if (DeveloperMode == !![])
                     	logger.log(global.getText('handleEvent', 'executeEvent', time, eventRun.config.name, threadID, Date.now() - timeStart), 'Event');
                 } catch (error) {
                     logger.log(global.getText('handleEvent', 'eventError', eventRun.config.name, JSON.stringify(error)), "error");

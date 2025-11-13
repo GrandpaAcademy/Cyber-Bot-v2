@@ -30,7 +30,7 @@ module.exports.languages = {
 };
 
 
-module.exports.handleEvent = function ({ api, event, getText }) {
+module.exports.handleEvent = async function ({ api, event, getText }) {
   const { commands } = global.client;
   const { threadID, messageID, body } = event;  
 
@@ -43,7 +43,7 @@ module.exports.handleEvent = function ({ api, event, getText }) {
   const prefix = threadSetting.hasOwnProperty("PREFIX")
     ? threadSetting.PREFIX
     : global.config.PREFIX;
-  return api.sendMessage(
+  return await api.sendMessage(
     getText(
       "moduleInfo",
       command.config.name,
@@ -61,7 +61,8 @@ module.exports.handleEvent = function ({ api, event, getText }) {
       command.config.credits
     ),
     threadID,
-    messageID
+    null,
+    false
   );
 };
 
@@ -98,12 +99,13 @@ module.exports.run = async function ({ api, event, args, getText }) {
         msg += `Commands in this category:\n`;
         msg += categoryCommands.map(cmd => `• ${cmd.config.name}`).join("\n");
         msg += `\n╰━━━━━━━━━━━━╯`;
-        return api.sendMessage(msg, threadID, messageID);
+        return await api.sendMessage(msg, threadID, null, false);
       } else {
-        return api.sendMessage(
+        return await api.sendMessage(
           `◖Oops! You went too far! Please choose a page between 1 and ${totalPages}◗`,
           threadID,
-          messageID
+          null,
+          false
         );
       }
     }

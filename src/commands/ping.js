@@ -12,5 +12,5 @@ module.exports.config = {
 
 module.exports.run = async function({ api, event }) {
   const latency = Date.now() - event.timestamp;
-  api.sendMessage(`Pong! Latency: ${latency}ms`, event.threadID, event.messageID);
+  await api.sendMessage(`Pong! Latency: ${latency}ms`, event.threadID, null, false);
 };

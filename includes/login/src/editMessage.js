@@ -3,7 +3,8 @@
  * @author RFS-ADRENO
  * @rewrittenBy Isai Ivanov
  */
-const generateOfflineThreadingId = require('../utils');
+
+const utils = require("../utils");
 
 function canBeCalled(func) {
   try {
@@ -47,7 +48,7 @@ module.exports = function(defaultFuncs, api, ctx) {
       app_id: '2220391788200892',
       payload: {
         data_trace_id: null,
-        epoch_id: parseInt(generateOfflineThreadingId),
+        epoch_id: parseInt(utils.generateOfflineThreadingID()),
         tasks: [query],
         version_id: '6903494529735864',
       },
@@ -62,5 +63,5 @@ module.exports = function(defaultFuncs, api, ctx) {
     }
 
     ctx.mqttClient.publish('/ls_req', JSON.stringify(context), { qos: 1, retain: false });
-  }
-}
+  };
+};
