@@ -12,7 +12,7 @@ if (!API_KEY) {
 const genAI = new GoogleGenerativeAI(API_KEY);
 
 // Model Configuration for Classification
-const CLASSIFICATION_MODELS = ["gemini-2.5-flash-lite", "gemma-3-27b-it", "gemini-2.5-flash", "gemini-2.0-flash-lite", "gemini-2.0-flash"];
+const CLASSIFICATION_MODELS = ["gemini-2.5-flash-lite", "gemini-2.5-flash", "gemini-2.0-flash-lite", "gemini-2.0-flash"];
 
 // System prompt for classification
 const CLASSIFICATION_PROMPT = `
@@ -62,7 +62,12 @@ async function classifyInput(userInput) {
       console.log(`Trying classification model: ${name}`);
       const result = await model.generateContent(userInput);
       const response = result.response;
-      const text = response.text().trim();
+      let text = response.text().trim();
+
+      // Extract JSON from code blocks if present
+      if (text.startsWith('```json')) {
+        text = text.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+      }
 
       // Parse JSON response
       const classification = JSON.parse(text);

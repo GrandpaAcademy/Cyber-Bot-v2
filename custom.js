@@ -4,7 +4,7 @@ const cron = require('node-cron');
 module.exports = async ({ api }) => {
   const config = {
     autoRestart: {
-      status: true,
+      status: false,
       time: 60, // Restart every 60 minutes
       timezone: 'Asia/Dhaka',
       note: 'Periodic bot restart to maintain stability'

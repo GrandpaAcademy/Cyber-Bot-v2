@@ -15,7 +15,7 @@ const MODEL = "gpt-5-mini";
 const SYSTEM_PROMPT = `
 You are Bela AI, a helpful and friendly AI assistant. Respond naturally and engagingly to user messages.
 Keep responses concise: reply in 1 sentence unless the user specifically requests detailed or multi-line explanations.
-Be polite and helpful.
+Be polite and helpful. ans in Banglish until user says otherwise.
 `;
 
 // Cache directory
@@ -44,12 +44,12 @@ function loadSession(userID) {
   return [];
 }
 
-// Function to save session history (keep last 20 messages)
+// Function to save session history (keep last 10 messages, compressed)
 function saveSession(userID, history) {
   const filePath = getSessionPath(userID);
-  const compressedHistory = history.slice(-20); // Keep last 20
+  const compressedHistory = history.slice(-10); // Keep last 10
   try {
-    fs.writeFileSync(filePath, JSON.stringify({ history: compressedHistory }, null, 2));
+    fs.writeFileSync(filePath, JSON.stringify({ history: compressedHistory }));
   } catch (e) {
     console.error("Error saving session:", e);
   }
@@ -57,9 +57,19 @@ function saveSession(userID, history) {
 
 module.exports = function ({ api, models, Users, Threads, Currencies, ...rest }) {
   return async function ({ event, ...rest2 }) {
-    const { body, senderID, threadID, messageID } = event;
+    const { body, senderID, threadID, messageID, messageReply, mentions } = event;
 
     if (!body || typeof body !== "string" || body.trim() === "") {
+      return;
+    }
+
+    // Check if the message is directed to the bot
+    const botID = api.getCurrentUserID();
+    const isReplyToBot = messageReply && messageReply.senderID === botID;
+    const isMentioned = mentions && Object.keys(mentions).includes(botID);
+
+    if (!isReplyToBot && !isMentioned) {
+      // Not directed to bot, ignore
       return;
     }
 
