@@ -182,9 +182,13 @@ module.exports.run = async function({ api, args, Users, event, Threads, utils, c
 		  //Check xem đã bị cảnh cáo lần nào chưa
 		for(let iid of iduser) {
 			var id = parseInt(iid);
+			if(id == api.getCurrentUserID()) {
+				api.sendMessage("Cannot ban the bot owner.", threadID, messageID);
+				continue;
+			}
 			var nametag = (await api.getUserInfo(id))[id].name;
 			arraytag.push({id: id, tag: nametag});
-			
+
 			if(!reason) reason += "No reason was given";
 			/*if(!bans.warns.hasOwnProperty(threadID)) {
 			bans.warns[threadID] = {}; 

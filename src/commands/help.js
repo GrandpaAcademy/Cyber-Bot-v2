@@ -114,7 +114,7 @@ module.exports.run = async function ({ api, event, args, getText }) {
     for (let i = 0; i < visibleCategories.length; i++) {
       const category = visibleCategories[i];
       const categoryCommands = commandList.filter(cmd => cmd.config.commandCategory === category);
-      const commandNames = categoryCommands.map(cmd => cmd.config.name);
+      const commandNames = [...new Set(categoryCommands.map(cmd => cmd.config.name))];
       const numberFont = ["❶","❷","❸","❹","❺","❻","❼","❽","❾","❿"];
       msg += `╭[ ${numberFont[i]} ]─❍ ${category}\n╰─◗ ${commandNames.join(", ")}\n\n`;
     }

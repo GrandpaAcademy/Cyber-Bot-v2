@@ -1,36 +1,58 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const OpenAI = require("openai");
+const fs = require("fs");
+const path = require("path");
 const config = require("../../config.json");
 
-// Configure API key
-const API_KEY = config.GOOGLE_API_KEY || process.env.GOOGLE_API_KEY;
-if (!API_KEY) {
-  console.error("Google API key not found in config.json or environment variables");
-  module.exports = null;
-  return;
-}
+// Configure OpenAI client for llm7.io
+const client = new OpenAI({
+  baseURL: "https://api.llm7.io/v1",
+  apiKey: config.OPENAI_API_KEY || "unused"
+});
 
-const genAI = new GoogleGenerativeAI(API_KEY);
-
-// Model for general chat
-const CHAT_MODEL_NAME = "gemini-2.5-flash-lite";
+const MODEL = "gpt-5-mini";
 
 // System prompt for general chat
-const CHAT_PROMPT = `
+const SYSTEM_PROMPT = `
 You are Bela AI, a helpful and friendly AI assistant. Respond naturally and engagingly to user messages.
-Keep responses concise but informative. Be polite and helpful.
+Keep responses concise: reply in 1 sentence unless the user specifically requests detailed or multi-line explanations.
+Be polite and helpful.
 `;
 
-// Initialize the chat model
-let chatModel;
-try {
-  chatModel = genAI.getGenerativeModel({
-    model: CHAT_MODEL_NAME,
-    systemInstruction: CHAT_PROMPT
-  });
-} catch (e) {
-  console.error("Error initializing chat model:", e);
-  module.exports = null;
-  return;
+// Cache directory
+const CACHE_DIR = path.join(__dirname, "../../cache");
+if (!fs.existsSync(CACHE_DIR)) {
+  fs.mkdirSync(CACHE_DIR, { recursive: true });
+}
+
+// Function to get session file path
+function getSessionPath(userID) {
+  return path.join(CACHE_DIR, `session_${userID}.json`);
+}
+
+// Function to load session history
+function loadSession(userID) {
+  const filePath = getSessionPath(userID);
+  if (fs.existsSync(filePath)) {
+    try {
+      const data = JSON.parse(fs.readFileSync(filePath, "utf8"));
+      return data.history || [];
+    } catch (e) {
+      console.error("Error loading session:", e);
+      return [];
+    }
+  }
+  return [];
+}
+
+// Function to save session history (keep last 20 messages)
+function saveSession(userID, history) {
+  const filePath = getSessionPath(userID);
+  const compressedHistory = history.slice(-20); // Keep last 20
+  try {
+    fs.writeFileSync(filePath, JSON.stringify({ history: compressedHistory }, null, 2));
+  } catch (e) {
+    console.error("Error saving session:", e);
+  }
 }
 
 module.exports = function ({ api, models, Users, Threads, Currencies, ...rest }) {
@@ -42,10 +64,33 @@ module.exports = function ({ api, models, Users, Threads, Currencies, ...rest })
     }
 
     try {
+      // Load session history
+      let history = loadSession(senderID);
+
+      // Add user message to history
+      history.push({ role: "user", content: body.trim() });
+
+      // Prepare messages for API
+      const messages = [
+        { role: "system", content: SYSTEM_PROMPT },
+        ...history
+      ];
+
       // Generate AI response
-      const result = await chatModel.generateContent(body.trim());
-      const response = result.response;
-      const aiResponse = response.text().trim();
+      const completion = await client.chat.completions.create({
+        model: MODEL,
+        messages: messages,
+        max_tokens: 150, // Limit response length
+        temperature: 0.7
+      });
+
+      const aiResponse = completion.choices[0].message.content.trim();
+
+      // Add AI response to history
+      history.push({ role: "assistant", content: aiResponse });
+
+      // Save session
+      saveSession(senderID, history);
 
       // Send the AI response
       api.sendMessage(`🤖 ${aiResponse}`, threadID, messageID);

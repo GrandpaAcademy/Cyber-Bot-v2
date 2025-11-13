@@ -102,7 +102,8 @@ global.data = new Object({
 const requiredDirs = [
   './src/events/cache',
   './cache',
-  './includes/cache'
+  './includes/cache',
+  './src/commands/cache'
 ];
 
 for (const dir of requiredDirs) {

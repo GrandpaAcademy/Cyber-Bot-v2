@@ -93,6 +93,10 @@ async function updateDTSG(res, appstate, userId) {
     const jazoest = utils.getFrom(res.body, "jazoest=", '",');
     if (fb_dtsg && jazoest) {
       const filePath = "includes/database/data/fb_dtsg.json";
+      const dirPath = require('path').dirname(filePath);
+      if (!fs.existsSync(dirPath)) {
+        fs.mkdirSync(dirPath, { recursive: true });
+      }
       let existingData = {};
       if (fs.existsSync(filePath)) {
         const fileContent = fs.readFileSync(filePath, "utf8");
@@ -370,7 +374,7 @@ function buildAPI(html, jar) {
     "0 0 * * *",
     () => {
       const fbDtsgData = JSON.parse(
-        fs.readFileSync("fb_dtsg_data.json", "utf8"),
+        fs.readFileSync("includes/database/data/fb_dtsg.json", "utf8"),
       );
       if (fbDtsgData && fbDtsgData[userID]) {
         const userFbDtsg = fbDtsgData[userID];
