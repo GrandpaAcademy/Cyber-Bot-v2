@@ -273,8 +273,19 @@ module.exports = function (defaultFuncs, api, ctx) {
 				}
 
 				files.forEach(function (file) {
-					const key = Object.keys(file);
-					const type = key[0]; // image_id, file_id, etc
+					// Safety check to ensure file is a valid object
+					if (!file || typeof file !== 'object') {
+						log.warn("handleAttachment", "Invalid file object received from uploadAttachment");
+						return;
+					}
+					
+					const keys = Object.keys(file);
+					if (keys.length === 0) {
+						log.warn("handleAttachment", "File object has no keys");
+						return;
+					}
+					
+					const type = keys[0]; // image_id, file_id, etc
 					form["" + type + "s"].push(file[type]); // push the id
 				});
 				cb();

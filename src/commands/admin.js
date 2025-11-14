@@ -27,7 +27,7 @@ module.exports.run = async function({ api, event }) {
 ┃ 👤 𝐍𝐚𝐦𝐞      : ${conf.AuthorName}
 ┃ 🚹 𝐆𝐞𝐧𝐝𝐞𝐫    :  ${conf.AuthorGender}
 ┃ ❤️ 𝐑𝐞𝐥𝐚𝐭𝐢𝐨𝐧  : ${conf.AuthorReletionalStatus}
-┃ 🎂 𝐀𝐠𝐞       : ${conf.AuthorAge}
+┃ 🎂 𝐀𝐠𝐞        : ${conf.AuthorAge}
 ┃ 🕌 𝐑𝐞𝐥𝐢𝐠𝐢𝐨𝐧  : ${conf.AuthorReligion}
 ┃ 🏫 𝐄𝐝𝐮𝐜𝐚𝐭𝐢𝐨𝐧 : None.
 ┃ 🏡 𝐀𝐝𝐝𝐫𝐞𝐬𝐬  : ${conf.AuthorLocation}
