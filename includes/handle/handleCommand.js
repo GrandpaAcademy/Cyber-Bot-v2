@@ -179,8 +179,14 @@ module.exports = function ({ api, models, Users, Threads, Currencies, ...rest })
       }
     }
 
-    if (command && command.config && command.config.usePrefix !== undefined) {
-        command.config.usePrefix = command.config.usePrefix ?? true;
+    // Auto-set usePrefix for commands without prefix/usePrefix configuration
+    if (command && command.config && typeof command.config.usePrefix === "undefined" && typeof command.config.prefix === "undefined") {
+      command.config.usePrefix = true;
+    }
+
+    // Apply legacy prefix compatibility
+    if (command && command.config && command.config.prefix !== undefined) {
+      command.config.usePrefix = command.config.prefix;
     }
 
     if (command && command.config) {
@@ -199,11 +205,8 @@ module.exports = function ({ api, models, Users, Threads, Currencies, ...rest })
       if (command.config.usePrefix === true && !body.startsWith(PREFIX)) {
         return;
       }
-    }
-
-    if (command && command.config) {
-      if (typeof command.config.usePrefix === "undefined") {
-        command.config.usePrefix = true;
+      if (command.config.usePrefix === false && body.startsWith(PREFIX)) {
+        return;
       }
     }
 

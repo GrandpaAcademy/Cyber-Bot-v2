@@ -80,9 +80,33 @@ module.exports = function ({ api, models, Users, Threads, Currencies, ...rest })
           const modifiedEvent = { ...event, body: global.config.PREFIX + "help " + helpArg };
           handleCommand({ event: modifiedEvent, ...rest2 });
         } else if (matchedCommand === words[0]) {
-          // If the matched command is the first word, construct command with all remaining args
+          // Check if this command requires a prefix
+          const command = commands.get(matchedCommand);
+          
+          // Auto-set usePrefix for commands without prefix/usePrefix configuration
+          let usePrefix = true;
+          if (command && command.config) {
+            if (typeof command.config.usePrefix !== "undefined") {
+              usePrefix = command.config.usePrefix;
+            } else if (typeof command.config.prefix !== "undefined") {
+              usePrefix = command.config.prefix;
+            } else {
+              usePrefix = true; // Default to true for commands without configuration
+            }
+          }
+          
+          // Get remaining arguments
           const remainingArgs = words.slice(1).join(" ");
-          const commandBody = remainingArgs ? global.config.PREFIX + matchedCommand + " " + remainingArgs : global.config.PREFIX + matchedCommand;
+          
+          let commandBody;
+          if (usePrefix) {
+            // Commands that require prefix
+            commandBody = remainingArgs ? global.config.PREFIX + matchedCommand + " " + remainingArgs : global.config.PREFIX + matchedCommand;
+          } else {
+            // Commands that don't require prefix (like baby)
+            commandBody = remainingArgs ? matchedCommand + " " + remainingArgs : matchedCommand;
+          }
+          
           const modifiedEvent = { ...event, body: commandBody };
           handleCommand({ event: modifiedEvent, ...rest2 });
         } else {
