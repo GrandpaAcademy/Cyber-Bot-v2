@@ -137,7 +137,7 @@ module.exports.languages = {
 
 - [Join our Telegram](https://t.me/Grandpa_Academy)
 - [Subscribe on YouTube](https://www.youtube.com/@Grandpa_Academy)
-- [Follow on Facebook](https://www.facebook.com/GrandpaEJ)
+- [Follow on Facebook](https://www.facebook.com/ebtisam.jubair)
 
 ## 🤝 Contributing
 
