@@ -55,6 +55,7 @@
     }
   },
   "APPSTATEPATH": "appstate.json",
+  "BELAAI_API_URL":"http://localhost:3000",
   "DEL_FUNCTION": false,
   "ADD_FUNCTION": true,
   "FCAOption": {
