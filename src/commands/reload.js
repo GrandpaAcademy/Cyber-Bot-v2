@@ -83,10 +83,10 @@ module.exports.run = async function({ api, event, args }) {
             global.configModule[moduleName][envConfigKey] = global.config[moduleName][envConfigKey] ?? envConfig[envConfigKey];
             global.config[moduleName][envConfigKey] = global.config[moduleName][envConfigKey] ?? envConfig[envConfigKey];
           }
-          delete require.cache[require.resolve('./../../config.json')];
-          var configPath = require('./../../config.json');
-          configPath[moduleName] = envConfig;
-          fs.writeFileSync(global.client.configPath, JSON.stringify(configPath, null, 4), 'utf-8');
+          // Removed auto-writing to config.json to prevent overwriting manual edits
+          // var configPath = require('./../../config.json');
+          // configPath[moduleName] = envConfig;
+          // fs.writeFileSync(global.client.configPath, JSON.stringify(configPath, null, 4), 'utf-8');
         }
 
         if (module.onLoad) {

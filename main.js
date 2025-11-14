@@ -305,10 +305,10 @@ function onBot() {
                 global.configModule[moduleName][envConfigKey] = global.config[moduleName][envConfigKey] ?? envConfig[envConfigKey];
                 global.config[moduleName][envConfigKey] = global.config[moduleName][envConfigKey] ?? envConfig[envConfigKey];
               }
-              delete require.cache[require.resolve('./config.json')];
-              var configPath = require('./config.json');
-              configPath[moduleName] = envConfig;
-              fs.writeFileSync(global.client.configPath, JSON.stringify(configPath, null, 4), 'utf-8');
+              // Removed auto-writing to config.json to prevent overwriting manual edits
+              // var configPath = require('./config.json');
+              // configPath[moduleName] = envConfig;
+              // fs.writeFileSync(global.client.configPath, JSON.stringify(configPath, null, 4), 'utf-8');
             }
 
 
@@ -398,11 +398,11 @@ function onBot() {
               for (const evt in config.envConfig) {
                 configModule[evt] = configData[evt] = config.envConfig[evt] || '';
               }
-              delete require.cache[require.resolve(global.client.configPath)];
-              fs.writeFileSync(global.client.configPath, JSON.stringify({
-                ...require(global.client.configPath),
-                [config.name]: config.envConfig
-              }, null, 2));
+              // Removed auto-writing to config.json to prevent overwriting manual edits
+              // fs.writeFileSync(global.client.configPath, JSON.stringify({
+              //   ...require(global.client.configPath),
+              //   [config.name]: config.envConfig
+              // }, null, 2));
             }
             if (onLoad) {
               const eventData = {
