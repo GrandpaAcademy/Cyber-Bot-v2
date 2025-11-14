@@ -1,107 +1,107 @@
 {
-  "version": "2.0.0",
-  "language": "en",
-  "DeveloperMode": true,
-  "autoCreateDB": true,
-  "allowInbox": false,
-  "autoClean": true,
-  "adminOnly": false,
-  "encryptSt": false,
-  "removeSt": false,
-  "defaultCommandConfig": {
-    "version": "1.0.0",
-    "hasPermssion": 0,
-    "credits": "GrandpaAcademy",
-    "description": "No description provided",
-    "usePrefix": true,
-    "commandCategory": "other",
-    "usages": "",
-    "cooldowns": 5,
-    "aliases": []
-  },
-  "forceCredit": true,
-  "defaultCredit": "GrandpaAcademy",
-  "translation": {
-    "apiURL": "http://localhost:8080/api/translate",
-    "defaultLang": "bn"
-  },
-  "UPDATE": {
-    "Package": true,
-    "EXCLUDED": [
-      "chalk",
-      "mqtt",
-      "https-proxy-agent",
-      "gradient-string"
+    "version": "2.0.0",
+    "language": "en",
+    "DeveloperMode": true,
+    "autoCreateDB": true,
+    "allowInbox": false,
+    "autoClean": true,
+    "adminOnly": false,
+    "encryptSt": false,
+    "removeSt": false,
+    "defaultCommandConfig": {
+        "version": "1.0.0",
+        "hasPermssion": 0,
+        "credits": "GrandpaAcademy",
+        "description": "No description provided",
+        "usePrefix": true,
+        "commandCategory": "other",
+        "usages": "",
+        "cooldowns": 5,
+        "aliases": []
+    },
+    "forceCredit": true,
+    "defaultCredit": "GrandpaAcademy",
+    "translation": {
+        "apiURL": "http://localhost:8080/api/translate",
+        "defaultLang": "bn"
+    },
+    "UPDATE": {
+        "Package": true,
+        "EXCLUDED": [
+            "chalk",
+            "mqtt",
+            "https-proxy-agent",
+            "gradient-string"
+        ],
+        "Info": "Ei section bot er automatic package update manage kore. Ei function disable korte chaile, 'Package' ke false set korun. Jodi apni shudhu specific package exclude korte chan, seguloke true set korun ar 'EXCLUDED' list e add korun."
+    },
+    "commandDisabled": [],
+    "eventDisabled": [],
+    "BOTNAME": "SORA BOT",
+    "PREFIX": "?",
+    "ADMINBOT": [
+        "100002672611442"
     ],
-    "Info": "Ei section bot er automatic package update manage kore. Ei function disable korte chaile, 'Package' ke false set korun. Jodi apni shudhu specific package exclude korte chan, seguloke true set korun ar 'EXCLUDED' list e add korun."
-  },
-  "commandDisabled": [],
-  "eventDisabled": [],
-  "BOTNAME": "SORA BOT",
-  "PREFIX": "?",
-  "ADMINBOT": [
-    "61575900132985"
-  ],
-  "OWNER": [
-    "61575900132985"
-  ],
-  "DESIGN": {
-    "Title": "Cyber-Bot",
-    "Theme": "Blue",
-    "Admin": "GrandpaEJ",
-    "Setup": {
-      "Info": "Apnar nijossho custom terminal Titlebar design korun title er jonno ar ekhane kono number thakte parbe na",
-      "Themes": "Apnar console ke bivinno theme color diye customize korun. Aqua, Fiery, Blue, Orange, Pink, Red, Retro, Sunlight, Teen, Summer, Flower, Ghost, Purple, Rainbow, ar Hacker theme explore korun apnar terminal logs enhance korar jonno."
+    "OWNER": [
+        "100002672611442"
+    ],
+    "DESIGN": {
+        "Title": "Cyber-Bot",
+        "Theme": "Blue",
+        "Admin": "GrandpaEJ",
+        "Setup": {
+            "Info": "Apnar nijossho custom terminal Titlebar design korun title er jonno ar ekhane kono number thakte parbe na",
+            "Themes": "Apnar console ke bivinno theme color diye customize korun. Aqua, Fiery, Blue, Orange, Pink, Red, Retro, Sunlight, Teen, Summer, Flower, Ghost, Purple, Rainbow, ar Hacker theme explore korun apnar terminal logs enhance korar jonno."
+        }
+    },
+    "APPSTATEPATH": "appstate.json",
+    "BELAAI_API_URL": "http://localhost:3000",
+    "DEL_FUNCTION": false,
+    "ADD_FUNCTION": true,
+    "FCAOption": {
+        "forceLogin": false,
+        "listenEvents": true,
+        "autoMarkDelivery": false,
+        "autoMarkRead": false,
+        "logLevel": "error",
+        "selfListen": false,
+        "online": true,
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/600.3.18 (KHTML, like Gecko) Version/8.0.3 Safari/600.3.18",
+        "byPassRegion": "PNB"
+    },
+    "daily": {
+        "cooldownTime": 43200000,
+        "rewardCoin": 500
+    },
+    "work": {
+        "cooldownTime": 1200000
+    },
+    "help": {
+        "autoUnsend": true,
+        "delayUnsend": 60
+    },
+    "adminUpdate": {
+        "autoUnsend": true,
+        "sendNoti": true,
+        "timeToUnsend": 10
+    },
+    "adminNoti": {
+        "autoUnsend": true,
+        "sendNoti": true,
+        "timeToUnsend": 10
+    },
+    "sing": {
+        "YOUTUBE_API": "AIzaSyCqox-KXEwDncsuo2HIpE0MF8J7ATln5Vc",
+        "SOUNDCLOUD_API": "M4TSyS6eV0AcMynXkA3qQASGcOFQTWub"
+    },
+    "video": {
+        "YOUTUBE_API": "AIzaSyDEE1-zZSRVI8lTaQOVsIAQFgL-_BJKvhk"
+    },
+    "audio": {
+        "YOUTUBE_API": "AIzaSyDEE1-zZSRVI8lTaQOVsIAQFgL-_BJKvhk"
+    },
+    "menu": {
+        "autoUnsend": true,
+        "delayUnsend": 60
     }
-  },
-  "APPSTATEPATH": "appstate.json",
-  "BELAAI_API_URL":"http://localhost:3000",
-  "DEL_FUNCTION": false,
-  "ADD_FUNCTION": true,
-  "FCAOption": {
-    "forceLogin": false,
-    "listenEvents": true,
-    "autoMarkDelivery": false,
-    "autoMarkRead": false,
-    "logLevel": "error",
-    "selfListen": false,
-    "online": true,
-    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/600.3.18 (KHTML, like Gecko) Version/8.0.3 Safari/600.3.18",
-    "byPassRegion": "PNB"
-  },
-  "daily": {
-    "cooldownTime": 43200000,
-    "rewardCoin": 500
-  },
-  "work": {
-    "cooldownTime": 1200000
-  },
-  "help": {
-    "autoUnsend": true,
-    "delayUnsend": 60
-  },
-  "adminUpdate": {
-    "autoUnsend": true,
-    "sendNoti": true,
-    "timeToUnsend": 10
-  },
-  "adminNoti": {
-    "autoUnsend": true,
-    "sendNoti": true,
-    "timeToUnsend": 10
-  },
-  "sing": {
-    "YOUTUBE_API": "AIzaSyCqox-KXEwDncsuo2HIpE0MF8J7ATln5Vc",
-    "SOUNDCLOUD_API": "M4TSyS6eV0AcMynXkA3qQASGcOFQTWub"
-  },
-  "video": {
-    "YOUTUBE_API": "AIzaSyDEE1-zZSRVI8lTaQOVsIAQFgL-_BJKvhk"
-  },
-  "audio": {
-    "YOUTUBE_API": "AIzaSyDEE1-zZSRVI8lTaQOVsIAQFgL-_BJKvhk"
-  },
-  "menu": {
-    "autoUnsend": true,
-    "delayUnsend": 60
-  }
 }
