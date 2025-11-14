@@ -23,5 +23,41 @@
             "timestamp": 1763045032385
         },
         "lastUpdate": 1763045032385
+    },
+    "100001039692046": {
+        "userID": "100001039692046",
+        "money": 0,
+        "exp": 0,
+        "createTime": {
+            "timestamp": 1763059182407
+        },
+        "data": {
+            "timestamp": 1763059182407
+        },
+        "lastUpdate": 1763059182407
+    },
+    "100015168369582": {
+        "userID": "100015168369582",
+        "money": 0,
+        "exp": 0,
+        "createTime": {
+            "timestamp": 1763059182755
+        },
+        "data": {
+            "timestamp": 1763059182755
+        },
+        "lastUpdate": 1763059182755
+    },
+    "100092553712823": {
+        "userID": "100092553712823",
+        "money": 0,
+        "exp": 0,
+        "createTime": {
+            "timestamp": 1763059183099
+        },
+        "data": {
+            "timestamp": 1763059183099
+        },
+        "lastUpdate": 1763059183099
     }
 }
