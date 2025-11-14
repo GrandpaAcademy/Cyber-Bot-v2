@@ -39,9 +39,10 @@ module.exports.run = async function({ api, event, args }) {
 
     const dpUrl = `https://graph.facebook.com/${userID}/picture?height=720&width=720&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662`;
 
-    const infoMessage = `╭━━━━━━━━━━━━━━━━━━━━╮
-┃   👤 USER INFO   ┃
-╰━━━━━━━━━━━━━━━━━━━━╯
+    const infoMessage = `
+╭━━━━━━━━━━╮
+┃   👤 USER INFO         ┃
+╰━━━━━━━━━━╯
 
 👤 Name: ${user.name}
 🔗 Profile: ${user.profileUrl || "N/A"}
@@ -50,7 +51,7 @@ module.exports.run = async function({ api, event, args }) {
 🤝 Friend: ${isFriendText}
 🆔 ID: ${userID}
 
-╰━━━━━━━━━━━━━━━━━━━━╯`;
+╰━━━━━━━━━━━╯`;
 
     const axios = require("axios");
     const response = await axios.get(dpUrl, { responseType: 'stream' });
