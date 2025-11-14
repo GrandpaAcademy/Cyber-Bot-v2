@@ -1,9 +1,8 @@
-const config = require("../../config.json");
-
 async function classifyInput(userInput) {
   const axios = require('axios');
   try {
-    const response = await axios.post(`${config.BELAAI_API_URL}/bela/classify`, { input: userInput });
+    console.log(`???????? ${global.config.BELAAI_API_URL}/bela/classify`)
+    const response = await axios.post(`${global.config.BELAAI_API_URL}/bela/classify`, { input: userInput });
     return response.data;
   } catch (error) {
     console.error('Error calling classification API:', error.message);
@@ -61,9 +60,23 @@ module.exports = function ({ api, models, Users, Threads, Currencies, ...rest })
       }
 
       if (matchedCommand) {
-        // Construct proper command message
-        const modifiedEvent = { ...event, body: global.config.PREFIX + matchedCommand };
-        handleCommand({ event: modifiedEvent, ...rest2 });
+        // Special handling for help commands with arguments
+        if (matchedCommand === "help" && words.length > 1) {
+          // For "help ping", construct "?help ping"
+          const helpArg = words.slice(1).join(" ");
+          const modifiedEvent = { ...event, body: global.config.PREFIX + "help " + helpArg };
+          handleCommand({ event: modifiedEvent, ...rest2 });
+        } else if (matchedCommand === words[0]) {
+          // If the matched command is the first word, construct command with all remaining args
+          const remainingArgs = words.slice(1).join(" ");
+          const commandBody = remainingArgs ? global.config.PREFIX + matchedCommand + " " + remainingArgs : global.config.PREFIX + matchedCommand;
+          const modifiedEvent = { ...event, body: commandBody };
+          handleCommand({ event: modifiedEvent, ...rest2 });
+        } else {
+          // Command found but not first word - might be part of conversation
+          console.log(`🤔 Command "${matchedCommand}" found but not primary intent, routing to general chat`);
+          handleGeneral({ event, ...rest2 });
+        }
       } else {
         // No command matched, treat as general
         console.log(`❓ No command matched in input, routing to general chat`);

@@ -2,7 +2,7 @@ module.exports.config = {
   name: "help",
   version: "2.0.1",
   hasPermission: 0,
-  credits: "GrandpaEJ",
+  credits: "Grandpa EJ",
   description: "Beginner's Guide",
   usePrefix: true,
   commandCategory: "guide",
@@ -32,10 +32,19 @@ module.exports.languages = {
 
 module.exports.handleEvent = function ({ api, event, getText }) {
   const { commands } = global.client;
-  const { threadID, messageID, body } = event;  
+  const { threadID, messageID, body } = event;
 
   if (!body || typeof body == "undefined" || body.indexOf("help") != 0)
     return;
+
+  // Don't respond to prefixed commands - let the run function handle those
+  const threadSettingEvent = global.data.threadData.get(parseInt(threadID)) || {};
+  const prefixEvent = threadSettingEvent.hasOwnProperty("PREFIX")
+    ? threadSettingEvent.PREFIX
+    : global.config.PREFIX;
+
+  if (body.startsWith(prefixEvent)) return;
+
   const splitBody = body.slice(body.indexOf("help")).trim().split(/\s+/);
   if (splitBody.length == 1 || !commands.has(splitBody[1].toLowerCase())) return;
   const threadSetting = global.data.threadData.get(parseInt(threadID)) || {};
@@ -131,9 +140,9 @@ module.exports.run = async function ({ api, event, args, getText }) {
     const config = require("./../../config.json");
     const msgg = {
       body:
-        `╭━━━━━━━━━━━━━━━━━━━━╮\n` +
+        `╭━━━━━━━━━━━━╮\n` +
         `┃   🤖 CYBER BOT HELP   ┃\n` +
-        `╰━━━━━━━━━━━━━━━━━━━━╯\n` +
+        `╰━━━━━━━━━━━━╯\n` +
         `\n` +
         `👤 Bot Owner: ${config.DESIGN.Admin}\n` +
         `\n` +
