@@ -113,6 +113,30 @@ for (const dir of requiredDirs) {
   }
 }
 
+// Start Bela AI server
+function startBelaServer() {
+  try {
+    const belaProcess = spawn("node", ["bela/index.js"], {
+      cwd: __dirname,
+      stdio: "inherit",
+      shell: true,
+      detached: true
+    });
+
+    belaProcess.unref();
+
+    belaProcess.on("error", (error) => {
+      console.log(chalk.yellow(``), `An error occurred while starting Bela AI server: ${error}`);
+    });
+
+    logger.log("Bela AI server started", "SETUP");
+  } catch (error) {
+    console.error("An error occurred starting Bela AI server:", error);
+  }
+}
+
+startBelaServer();
+
 // Initialize cache files if they don't exist
 const cacheFiles = {
   './src/events/cache/emoji.json': {
@@ -305,6 +329,7 @@ function onBot() {
                 global.configModule[moduleName][envConfigKey] = global.config[moduleName][envConfigKey] ?? envConfig[envConfigKey];
                 global.config[moduleName][envConfigKey] = global.config[moduleName][envConfigKey] ?? envConfig[envConfigKey];
               }
+              delete require.cache[require.resolve('./config.json')];
               var configPath = require('./config.json');
               configPath[moduleName] = envConfig;
               fs.writeFileSync(global.client.configPath, JSON.stringify(configPath, null, 4), 'utf-8');
@@ -397,6 +422,7 @@ function onBot() {
               for (const evt in config.envConfig) {
                 configModule[evt] = configData[evt] = config.envConfig[evt] || '';
               }
+              delete require.cache[require.resolve(global.client.configPath)];
               fs.writeFileSync(global.client.configPath, JSON.stringify({
                 ...require(global.client.configPath),
                 [config.name]: config.envConfig
