@@ -18,7 +18,6 @@ async function classifyInput(userInput, isReplyToBot = false) {
 
 module.exports = function ({ api, models, Users, Threads, Currencies, ...rest }) {
   const handleCommand = require("./handleCommand")({ api, models, Users, Threads, Currencies, ...rest });
-  const handleGeneral = require("../jui/handleGeneral")({ api, models, Users, Threads, Currencies, ...rest });
 
   return async function ({ event, ...rest2 }) {
     const { body, senderID, threadID, messageID, messageReply } = event;
@@ -87,19 +86,16 @@ module.exports = function ({ api, models, Users, Threads, Currencies, ...rest })
           const modifiedEvent = { ...event, body: commandBody };
           handleCommand({ event: modifiedEvent, ...rest2 });
         } else {
-          // Command found but not first word - might be part of conversation
-          console.log(`🤔 Command "${matchedCommand}" found but not primary intent, routing to general chat`);
-          handleGeneral({ event, ...rest2 });
+          // Command found but not first word - no action for general chat since it's removed
+          console.log(`🤔 Command "${matchedCommand}" found but not primary intent - no general chat handler`);
         }
       } else {
-        // No command matched, treat as general
-        console.log(`❓ No command matched in input, routing to general chat`);
-        handleGeneral({ event, ...rest2 });
+        // No command matched - no action for general chat since it's removed
+        console.log(`❓ No command matched in input - no general chat handler`);
       }
     } else {
-      // General conversation
-      console.log(`💬 AI Classification: General - "${classification.input}"`);
-      handleGeneral({ event, ...rest2 });
+      // General conversation - no action since general chat is removed
+      console.log(`💬 AI Classification: General - "${classification.input}" - no general chat handler`);
     }
   };
 };
