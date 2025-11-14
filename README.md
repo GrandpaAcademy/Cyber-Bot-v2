@@ -135,6 +135,7 @@ module.exports.languages = {
 
 ## 💬 Support
 
+- [CYBER BOT COMMUNITY](https://t.me/CYBER_BOT_COMMUNITY)
 - [Join our Telegram](https://t.me/Grandpa_Academy)
 - [Subscribe on YouTube](https://www.youtube.com/@Grandpa_Academy)
 - [Follow on Facebook](https://www.facebook.com/ebtisam.jubair)
