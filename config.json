@@ -45,6 +45,15 @@
     "OWNER": [
         "100002672611442"
     ],
+    "AuthorName":"Grandpa EJ",
+    "AuthorGender":"Male",
+    "AuthorReligion":"Islam",
+    "AuthorReletionalStatus":"Single",
+    "AuthorAge":"10+",
+    "AuthorLocation":"Bangladesh",
+    "AuthorGithub":"https://github.com/GrandpaEJ",
+    "AuthorFacebook":"https://www.facebook.com/Ebtisam.Jubair",
+    "AuthorID":"100002672611442",
     "DESIGN": {
         "Title": "Cyber-Bot",
         "Theme": "Blue",
