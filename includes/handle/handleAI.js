@@ -1,8 +1,14 @@
-async function classifyInput(userInput) {
+async function classifyInput(userInput, isReplyToBot = false) {
   const axios = require('axios');
   try {
-    console.log(`???????? ${global.config.BELAAI_API_URL}/bela/classify`)
-    const response = await axios.post(`${global.config.BELAAI_API_URL}/bela/classify`, { input: userInput });
+    // console.log(`???????? ${global.config.BELAAI_API_URL}/bela/classify`)
+    // Enhanced prompt for replies to bot messages
+    let promptInput = userInput;
+    if (isReplyToBot) {
+      promptInput = `[REPLY TO BOT] ${userInput} - This user is replying to the bot's message. Classify as "command" if they want to execute a bot command, or "general" for conversation.`;
+    }
+    
+    const response = await axios.post(`${global.config.BELAAI_API_URL}/bela/classify`, { input: promptInput });
     return response.data;
   } catch (error) {
     console.error('Error calling classification API:', error.message);
@@ -15,7 +21,7 @@ module.exports = function ({ api, models, Users, Threads, Currencies, ...rest })
   const handleGeneral = require("../jui/handleGeneral")({ api, models, Users, Threads, Currencies, ...rest });
 
   return async function ({ event, ...rest2 }) {
-    const { body, senderID, threadID, messageID } = event;
+    const { body, senderID, threadID, messageID, messageReply } = event;
 
     if (!body || typeof body !== "string" || body.trim() === "") {
       return;
@@ -28,8 +34,16 @@ module.exports = function ({ api, models, Users, Threads, Currencies, ...rest })
       return;
     }
 
+    // Check if this is a reply to the bot
+    const botID = global.client.api.getCurrentUserID();
+    const isReplyToBot = messageReply && messageReply.senderID === botID;
+    
+    if (isReplyToBot) {
+      console.log(`🔄 Reply to bot detected - enhancing AI classification`);
+    }
+
     // Classify the input
-    const classification = await classifyInput(body.trim());
+    const classification = await classifyInput(body.trim(), isReplyToBot);
 
     if (classification.type === "command") {
       // Treat as command, proceed with command handling
