@@ -1,6 +1,6 @@
 module.exports.config = {
   name: "help",
-  version: "2.0.1",
+  version: "2.0.2",
   hasPermission: 0,
   credits: "Grandpa EJ",
   description: "Beginner's Guide",
@@ -77,17 +77,55 @@ module.exports.handleEvent = function ({ api, event, getText }) {
 module.exports.run = async function ({ api, event, args, getText }) {
   const { commands } = global.client;
   const { threadID, messageID } = event;
-  const commandArg = (args[0] || "").toLowerCase();
-  // Find command by name or alias
-  let command = commands.get(commandArg);
-  if (!command) {
-    command = Array.from(commands.values()).find(cmd => Array.isArray(cmd.config.aliases) && cmd.config.aliases.map(a => a.toLowerCase()).includes(commandArg));
-  }
+  const { body } = event;
   const threadSetting = global.data.threadData.get(parseInt(threadID)) || {};
-  const { autoUnsend, delayUnsend } = global.configModule[this.config.name];
   const prefix = threadSetting.hasOwnProperty("PREFIX")
     ? threadSetting.PREFIX
     : global.config.PREFIX;
+  
+  // Enhanced argument parsing - check all words for valid commands
+  let command = null;
+  let commandArg = "";
+  
+  if (args.length > 0) {
+    // First try the first argument
+    commandArg = args[0].toLowerCase();
+    command = commands.get(commandArg);
+    
+    if (!command) {
+      command = Array.from(commands.values()).find(cmd =>
+        Array.isArray(cmd.config.aliases) &&
+        cmd.config.aliases.map(a => a.toLowerCase()).includes(commandArg)
+      );
+    }
+    
+    // If still not found, check subsequent arguments
+    if (!command) {
+      for (let i = 1; i < args.length; i++) {
+        const arg = args[i].toLowerCase();
+        const found = commands.get(arg);
+        if (found) {
+          command = found;
+          commandArg = arg;
+          break;
+        }
+        
+        // Check aliases for subsequent args
+        const foundAlias = Array.from(commands.values()).find(cmd =>
+          Array.isArray(cmd.config.aliases) &&
+          cmd.config.aliases.map(a => a.toLowerCase()).includes(arg)
+        );
+        if (foundAlias) {
+          command = foundAlias;
+          commandArg = arg;
+          break;
+        }
+      }
+    }
+  }
+  
+  // If still no command found, show general help
+  const { autoUnsend, delayUnsend } = global.configModule[this.config.name];
 
   if (!command) {
     const commandList = Array.from(commands.values());
@@ -169,7 +207,12 @@ module.exports.run = async function ({ api, event, args, getText }) {
     info += `Version: ${details.version || "N/A"}\n`;
     info += `Credits: ${details.credits || "N/A"}\n`;
     info += `Category: ${details.commandCategory || "N/A"}\n`;
-    info += `Usage: ${Array.isArray(details.usages) ? details.usages.join("\n- ") : details.usages || "N/A"}\n`;
+    // Enhanced usage display - always show the command syntax
+    if (details.usages && details.usages.trim() !== "") {
+      info += `Usage: ${Array.isArray(details.usages) ? details.usages.join("\n- ") : details.usages}\n`;
+    } else {
+      info += `Usage: ${prefix}${details.name}\n`;
+    }
     info += `Cooldown: ${details.cooldowns || "N/A"}s\n`;
     info += `Permission: ${details.hasPermission === 0 ? getText("user") : details.hasPermission === 1 ? getText("adminGroup") : getText("adminBot")}\n`;
     if (details.aliases && Array.isArray(details.aliases) && details.aliases.length) {
