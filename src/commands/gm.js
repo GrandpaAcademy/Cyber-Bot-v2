@@ -11,11 +11,7 @@ module.exports.config = {
     "name [new name]",
     "setpic (reply to image)",
     "getpic",
-    "theme [theme code]",
     "info",
-    "notify [on/off]",
-    "inbox [on/off]",
-    "approval [on/off]",
     "admin [add/remove] [@tag]"
   ],
   cooldowns: 5,
@@ -45,11 +41,7 @@ module.exports.run = async function({ api, event, args, Threads }) {
       "2. gm name [new name] - Change group name\n" +
       "3. gm setpic - Set group photo (reply to image)\n" +
       "4. gm getpic - Get group photo\n" +
-      "5. gm theme [theme code] - Change chat theme\n" +
       "6. gm info - Get group information\n" +
-      "7. gm notify [on/off] - Toggle notifications\n" +
-      "8. gm inbox [on/off] - Toggle message requests\n" +
-      "9. gm approval [on/off] - Toggle approval mode\n" +
       "10. gm admin [add/remove] [@tag] - Manage admins\n\n" +
       "Example: gm emoji 🎮",
       threadID, messageID

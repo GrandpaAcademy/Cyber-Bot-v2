@@ -6,7 +6,7 @@
   "allowInbox": false,
   "autoClean": true,
   "adminOnly": false,
-  "encryptSt": false,
+  "encryptSt": true,
   "removeSt": false,
   "defaultCommandConfig": {
     "version": "1.0.0",
