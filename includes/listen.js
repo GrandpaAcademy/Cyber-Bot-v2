@@ -134,6 +134,9 @@ module.exports = function ({ api }) {
       case "message":
       case "message_reply":
       case "message_unsend":
+        if (global.config.adminOnly && !global.config.ADMINBOT.includes(event.senderID) && event.senderID !== global.config.ADMINBOT[0]) {
+          return;
+        }
         handleCreateDatabase(listenObj);
         handleAI(listenObj);
         handleReply(listenObj);

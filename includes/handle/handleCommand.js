@@ -65,7 +65,6 @@ module.exports = function ({ api, models, Users, Threads, Currencies, ...rest })
 
     if (
       command &&
-      command.config.name.toLowerCase() === commandName.toLowerCase() &&
       !ADMINBOT.includes(senderID) &&
       adminOnly &&
       senderID !== api.getCurrentUserID()

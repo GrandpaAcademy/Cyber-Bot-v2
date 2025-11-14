@@ -1,7 +1,7 @@
 module.exports = function ({ api, models, Users, Threads, Currencies, ...rest }) {
     const logger = require("../../utils/log.js")
     return function ({ event, ...rest2 }) {
-        const { allowInbox } = global.config;
+        const { allowInbox, adminOnly, ADMINBOT } = global.config;
         const { userBanned, threadBanned } = global.data;
         const { commands, eventRegistered } = global.client;
         var { senderID, threadID, messageID } = event;
@@ -9,6 +9,7 @@ module.exports = function ({ api, models, Users, Threads, Currencies, ...rest })
         var threadID = String(threadID);
         var messageID = String(messageID || "");
         if (userBanned.has(senderID) || threadBanned.has(threadID) || allowInbox == !![] && senderID == threadID) return;
+        if (adminOnly && !ADMINBOT.includes(senderID) && senderID !== ADMINBOT[0]) return;
         for (const eventReg of eventRegistered) {
             const cmd = commands.get(eventReg);
             var getText2;
