@@ -1,12 +1,12 @@
 "use strict";
 
 const utils = require("../utils");
-const log = require("npmlog");
+// @NethWs3Dev
 
 module.exports = function (defaultFuncs, api, ctx) {
   return function logout(callback) {
-    let resolveFunc = function () { };
-    let rejectFunc = function () { };
+    let resolveFunc = function () {};
+    let rejectFunc = function () {};
     const returnPromise = new Promise(function (resolve, reject) {
       resolveFunc = resolve;
       rejectFunc = reject;
@@ -22,14 +22,14 @@ module.exports = function (defaultFuncs, api, ctx) {
     }
 
     const form = {
-      pmid: "0"
+      pmid: "0",
     };
 
     defaultFuncs
       .post(
         "https://www.facebook.com/bluebar/modern_settings_menu/?help_type=364455653583099&show_contextual_help=1",
         ctx.jar,
-        form
+        form,
       )
       .then(utils.parseAndCheckLogin(ctx, defaultFuncs))
       .then(function (resData) {
@@ -44,7 +44,7 @@ module.exports = function (defaultFuncs, api, ctx) {
         const form = {
           fb_dtsg: utils.getFrom(html, '"fb_dtsg" value="', '"'),
           ref: utils.getFrom(html, '"ref" value="', '"'),
-          h: utils.getFrom(html, '"h" value="', '"')
+          h: utils.getFrom(html, '"h" value="', '"'),
         };
 
         return defaultFuncs
@@ -62,11 +62,11 @@ module.exports = function (defaultFuncs, api, ctx) {
       })
       .then(function () {
         ctx.loggedIn = false;
-        log.info("logout", "Logged out successfully.");
+        console.log("logout", "Logged out successfully.");
         callback();
       })
       .catch(function (err) {
-        log.error("logout", err);
+        console.error("logout", err);
         return callback(err);
       });
 

