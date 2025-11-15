@@ -18,5 +18,9 @@ database/*
 database/
 
 cache/
+tmp/
+temp/
+
+logs/
 bela/
 bela/*
