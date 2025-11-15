@@ -279,23 +279,35 @@ module.exports = function ({ api, models, Users, Threads, Currencies, ...rest })
         // Create a message object for goat commands
         const messageObj = {
           send: (data, callback) => {
-            if (data.attachment) {
-              api.sendMessage({
-                body: data.body || "",
-                attachment: data.attachment
-              }, threadID, callback || null, messageID);
+            if (typeof data === 'object' && data !== null) {
+              if (data.attachment) {
+                api.sendMessage({
+                  body: data.body || "",
+                  attachment: data.attachment
+                }, threadID, callback || null, messageID);
+              } else if (data.body) {
+                api.sendMessage(data.body, threadID, callback || null, messageID);
+              } else {
+                api.sendMessage(data, threadID, callback || null, messageID);
+              }
             } else {
-              api.sendMessage(data.body || data, threadID, callback || null, messageID);
+              api.sendMessage(data || "", threadID, callback || null, messageID);
             }
           },
           reply: (data, callback) => {
-            if (data.attachment) {
-              api.sendMessage({
-                body: data.body || "",
-                attachment: data.attachment
-              }, threadID, callback || null, messageID);
+            if (typeof data === 'object' && data !== null) {
+              if (data.attachment) {
+                api.sendMessage({
+                  body: data.body || "",
+                  attachment: data.attachment
+                }, threadID, callback || null, messageID);
+              } else if (data.body) {
+                api.sendMessage(data.body, threadID, callback || null, messageID);
+              } else {
+                api.sendMessage(data, threadID, callback || null, messageID);
+              }
             } else {
-              api.sendMessage(data.body || data, threadID, callback || null, messageID);
+              api.sendMessage(data || "", threadID, callback || null, messageID);
             }
           },
           SyntaxError: () => {
