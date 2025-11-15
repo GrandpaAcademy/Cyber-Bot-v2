@@ -1,42 +1,36 @@
-
 const moment = require("moment-timezone");
 const fs = require("fs-extra");
 const axios = require("axios");
-const cheerio = require("cheerio");
 const Canvas = require("canvas");
-const https = require("https");
-const agent = new https.Agent({
-	rejectUnauthorized: false
-});
-const { getStreamFromURL } = global.utils;
+const path = require("path");
 
 module.exports = {
 	config: {
 		name: "moon",
-		version: "1.4",
-		author: "NTKhang",
+		version: "1.5",
+		author: "NTKhang, dubbed: Kilo",
 		countDown: 5,
 		role: 0,
 		description: {
-			vi: "xem ảnh mặt trăng vào đêm bạn chọn (dd/mm/yyyy)",
+			bn: "apnar pasand kora rate chand er chobi dekhen (dd/mm/yyyy)",
 			en: "view moon image on the night you choose (dd/mm/yyyy)"
 		},
-		commandCategory:"image",
-        usePrefix:true,
+		commandCategory: "image",
+		usePrefix: true,
 		guide: {
-			vi: "  {pn} <ngày/tháng/năm>"
-				+ "\n   {pn} <ngày/tháng/năm> <caption>",
+			bn: "  {pn} <din/mas/bochor>"
+				+ "\n   {pn} <din/mas/bochor> <caption>",
 			en: "  {pn} <day/month/year>"
 				+ "\n   {pn} <day/month/year> <caption>"
 		}
 	},
 
 	languages: {
-		vi: {
-			invalidDateFormat: "Vui lòng nhập ngày/tháng/năm hợp lệ theo định dạng DD/MM/YYYY",
-			error: "Đã xảy ra lỗi không thể lấy ảnh mặt trăng của ngày %1",
-			invalidDate: "Ngày %1 không hợp lệ",
-			caption: "- Ảnh mặt trăng vào đêm %1"
+		bn: {
+			invalidDateFormat: "Ekta valid date din DD/MM/YYYY format e",
+			error: "%1 tarikh er chand er chobi ante error hoyeche",
+			invalidDate: "%1 ekta valid date na",
+			caption: "- %1 rate chand er chobi"
 		},
 		en: {
 			invalidDateFormat: "Please enter a valid date in DD/MM/YYYY format",
@@ -46,81 +40,124 @@ module.exports = {
 		}
 	},
 
-	onStart: async function ({ args, message, getText }) {
+	onStart: async function ({ args, message, getLang }) {
+		const getText = getLang || ((key, ...args) => {
+			const lang = this.languages.en;
+			let text = lang[key] || key;
+			args.forEach((arg, i) => {
+				text = text.replace(`%${i + 1}`, arg);
+			});
+			return text;
+		});
+
 		const date = checkDate(args[0]);
 		if (!date)
 			return message.reply(getText("invalidDateFormat"));
-		const linkCrawl = `https://lunaf.com/lunar-calendar/${date}`;
 
-		let html;
+		// Calculate moon phase based on date
+		const [year, month, day] = date.split('/');
+		const phaseNumber = calculateMoonPhase(parseInt(year), parseInt(month), parseInt(day));
+		
+		const imgSrc = moonImages[phaseNumber];
+		
 		try {
-			html = await axios.get(linkCrawl, { httpsAgent: agent });
-		}
-		catch (err) {
-			return message.reply(getText("error", args[0]));
-		}
-
-		const $ = cheerio.load(html.data);
-		const href = $("figure img").attr("data-ezsrcset");
-		if (!href) return message.reply(getText("error", args[0]));
-		const number = href.match(/phase-(\d+)\.png/)[1];
-		const imgSrc = moonImages[Number(number)];
-		const { data: imgSrcBuffer } = await axios.get(imgSrc, {
-			responseType: "arraybuffer"
-		});
-
-		const msg = getText("caption", args[0])
-			+ `\n- ${$($('h3').get()[0]).text()}`
-			+ `\n- ${$("#phimg > small").text()}`
-			+ `\n- ${linkCrawl}`
-			+ `\n- https://lunaf.com/img/moon/h-phase-${number}.png`;
-
-		if (args[1]) {
-			const canvas = Canvas.createCanvas(1080, 2400);
-			const ctx = canvas.getContext("2d");
-			ctx.fillStyle = "black";
-			ctx.fillRect(0, 0, 1080, 2400);
-
-			const moon = await Canvas.loadImage(imgSrcBuffer);
-			centerImage(ctx, moon, 1080 / 2, 2400 / 2, 970, 970);
-
-			ctx.font = "60px \"Kanit SemiBold\"";
-			const wrapText = getLines(ctx, args.slice(1).join(" "), 594);
-			ctx.textAlign = "center";
-			ctx.fillStyle = "white";
-
-			const yStartText = 2095;//2042;
-			//ctx.fillRect(0, 2042, 1080, 5);
-			let heightText = yStartText - wrapText.length / 2 * 75;
-			for (const text of wrapText) {
-				ctx.fillText(text, 750, heightText);
-				heightText += 75;
-			}
-
-			const pathSave = __dirname + "/tmp/wallMoon.png";
-			fs.writeFileSync(pathSave, canvas.toBuffer());
-			message.reply({
-				body: msg,
-				attachment: fs.createReadStream(pathSave)
-			}, () => fs.unlinkSync(pathSave));
-		}
-		else {
-			const streamImg = await getStreamFromURL(imgSrc);
-			message.reply({
-				body: msg,
-				attachment: streamImg
+			const { data: imgSrcBuffer } = await axios.get(imgSrc, {
+				responseType: "arraybuffer",
+				timeout: 10000
 			});
+
+			const moonPhaseNames = [
+				"New Moon", "Waxing Crescent", "Waxing Crescent", "Waxing Crescent",
+				"First Quarter", "Waxing Gibbous", "Waxing Gibbous", "Waxing Gibbous",
+				"Full Moon", "Waning Gibbous", "Waning Gibbous", "Waning Gibbous",
+				"Last Quarter", "Waning Crescent", "Waning Crescent", "Waning Crescent"
+			];
+
+			const phaseName = moonPhaseNames[Math.floor(phaseNumber / 2)] || "Moon Phase";
+			const illumination = Math.round((1 - Math.abs((phaseNumber - 16) / 16)) * 100);
+
+			const msg = getText("caption", args[0])
+				+ `\n- Phase: ${phaseName}`
+				+ `\n- Illumination: ${illumination}%`
+				+ `\n- Date: ${day}/${month}/${year}`;
+
+			if (args[1]) {
+				// Create canvas with caption
+				const canvas = Canvas.createCanvas(1080, 2400);
+				const ctx = canvas.getContext("2d");
+				ctx.fillStyle = "black";
+				ctx.fillRect(0, 0, 1080, 2400);
+
+				const moon = await Canvas.loadImage(imgSrcBuffer);
+				centerImage(ctx, moon, 1080 / 2, 2400 / 2, 970, 970);
+
+				ctx.font = "60px Arial";
+				const wrapText = getLines(ctx, args.slice(1).join(" "), 594);
+				ctx.textAlign = "center";
+				ctx.fillStyle = "white";
+
+				const yStartText = 2095;
+				let heightText = yStartText - wrapText.length / 2 * 75;
+				for (const text of wrapText) {
+					ctx.fillText(text, 540, heightText);
+					heightText += 75;
+				}
+
+				// Ensure tmp directory exists
+				const tmpDir = path.join(__dirname, "tmp");
+				if (!fs.existsSync(tmpDir)) {
+					fs.mkdirSync(tmpDir, { recursive: true });
+				}
+
+				const pathSave = path.join(tmpDir, `wallMoon_${Date.now()}.png`);
+				fs.writeFileSync(pathSave, canvas.toBuffer());
+				
+				message.reply({
+					body: msg,
+					attachment: fs.createReadStream(pathSave)
+				}, () => {
+					setTimeout(() => {
+						try {
+							if (fs.existsSync(pathSave)) {
+								fs.unlinkSync(pathSave);
+							}
+						} catch (err) {
+							console.error("Error cleaning up moon image:", err);
+						}
+					}, 5000);
+				});
+			}
+			else {
+				// Send image directly
+				const tmpDir = path.join(__dirname, "tmp");
+				if (!fs.existsSync(tmpDir)) {
+					fs.mkdirSync(tmpDir, { recursive: true });
+				}
+
+				const pathSave = path.join(tmpDir, `moon_${Date.now()}.png`);
+				fs.writeFileSync(pathSave, imgSrcBuffer);
+
+				message.reply({
+					body: msg,
+					attachment: fs.createReadStream(pathSave)
+				}, () => {
+					setTimeout(() => {
+						try {
+							if (fs.existsSync(pathSave)) {
+								fs.unlinkSync(pathSave);
+							}
+						} catch (err) {
+							console.error("Error cleaning up moon image:", err);
+						}
+					}, 5000);
+				});
+			}
+		} catch (err) {
+			console.error("Moon command error:", err);
+			return message.reply(getText("error", args[0]));
 		}
 	}
 };
-
-
-const pathFont = __dirname + "/assets/font/Kanit-SemiBoldItalic.ttf";
-if (fs.existsSync(pathFont)) {
-	Canvas.registerFont(pathFont, {
-		family: "Kanit SemiBold"
-	});
-}
 
 function getLines(ctx, text, maxWidth) {
 	const words = text.split(" ");
@@ -152,6 +189,29 @@ function checkDate(date) {
 	const year = year0 || "";
 	const newDateFormat = year + "/" + month + "/" + day;
 	return moment(newDateFormat, 'YYYY/MM/DD', true).isValid() ? newDateFormat : false;
+}
+
+function calculateMoonPhase(year, month, day) {
+	// Calculate moon phase using astronomical algorithm
+	let c, e, jd, b;
+
+	if (month < 3) {
+		year--;
+		month += 12;
+	}
+
+	++month;
+	c = 365.25 * year;
+	e = 30.6 * month;
+	jd = c + e + day - 694039.09; // Julian date relative to Jan 1, 2000
+	jd /= 29.5305882; // Divide by the Moon cycle
+	b = parseInt(jd); // Integer part
+	jd -= b; // Decimal part
+	b = Math.round(jd * 32); // Scale fraction from 0-32
+
+	if (b === 32) b = 0;
+
+	return b;
 }
 
 const moonImages = [
