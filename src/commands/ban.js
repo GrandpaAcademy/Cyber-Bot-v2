@@ -4,7 +4,7 @@ module.exports.config = {
 	hasPermssion: 0,
 	credits: "NTKhang & edited by DuyVuong",
 	description: "Permanently ban members from the group (Remember to set the qtv bot)\nAuthor: NTKhang",
-  usePrefix: true,
+  	usePrefix: true,
 	commandCategory: "group",
 	usages: "[key]",
 	cooldowns: 5,
