@@ -25,7 +25,19 @@ module.exports.run = async function({ api, event, args }) {
 
   try {
     const commandsPath = `${global.client.mainPath}/src/commands`;
+    
+    // Load commands from main directory
     const listCommand = fs.readdirSync(commandsPath).filter(command => command.endsWith('.js') && !command.includes('example') && !global.config.commandDisabled.includes(command));
+    
+    // Load commands from subdirectories (like goat)
+    const subdirs = fs.readdirSync(commandsPath, { withFileTypes: true }).filter(dirent => dirent.isDirectory()).map(dirent => dirent.name);
+    for (const subdir of subdirs) {
+      const subdirPath = path.join(commandsPath, subdir);
+      const subdirCommands = fs.readdirSync(subdirPath).filter(command => command.endsWith('.js') && !command.includes('example') && !global.config.commandDisabled.includes(command));
+      for (const command of subdirCommands) {
+        listCommand.push(path.join(subdir, command));
+      }
+    }
 
     // Clear existing commands
     global.client.commands.clear();
