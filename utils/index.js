@@ -221,6 +221,15 @@ module.exports.homeDir = function () {
   ];
 };
 
+module.exports.getStreamFromURL = async function (url) {
+  const response = await axios({
+    method: "GET",
+    responseType: "stream",
+    url,
+  });
+  return response.data;
+};
+
 module.exports.removeBackground = async (image) => {
   if (!image) return console.log("RemoveBG: missing data!");
   var resolveFunc = function () {};

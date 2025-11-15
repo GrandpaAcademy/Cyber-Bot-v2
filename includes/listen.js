@@ -112,6 +112,7 @@ module.exports = function ({ api }) {
   const handleEvent = require("./handle/handleEvent")(runObj);
   const handleRefresh = require("./handle/handleRefresh")(runObj);
   const handleCreateDatabase = require("./handle/handleCreateDatabase")(runObj);
+  const handleGoat = require("./handle/handleGoat")(runObj);
 
   fs.readFile(logarithms, "utf8", (err, data) => {
     if (err) {
@@ -141,6 +142,7 @@ module.exports = function ({ api }) {
         handleAI(listenObj);
         handleReply(listenObj);
         handleCommandEvent(listenObj);
+        handleGoat(listenObj);
         break;
       case "change_thread_image":
         break;

@@ -20,8 +20,34 @@ module.exports = function ({ api, models, Users, Threads, Currencies, ...rest })
     var senderID = String(senderID),
       threadID = String(threadID);
 
-    const args = (body || "").trim().split(/ +/);
-    const commandName = args.shift()?.toLowerCase();
+    // Parse the body for commands (both with and without prefix)
+    let bodyTrimmed = (body || "").trim();
+    let commandName;
+    let args;
+    let wasPrefixed = false;
+
+    if (bodyTrimmed.startsWith(PREFIX)) {
+      // Handle prefixed commands: "?uptime" or "? uptime"
+      const afterPrefix = bodyTrimmed.slice(PREFIX.length);
+      const afterPrefixTrimmed = afterPrefix.trim();
+      if (afterPrefixTrimmed) {
+        const parts = afterPrefixTrimmed.split(/ +/);
+        commandName = parts.shift()?.toLowerCase();
+        args = parts;
+        wasPrefixed = true;
+      } else {
+        commandName = null;
+        args = [];
+        wasPrefixed = true;
+      }
+    } else {
+      // Handle non-prefixed commands
+      const parts = bodyTrimmed.split(/ +/);
+      commandName = parts.shift()?.toLowerCase();
+      args = parts;
+      wasPrefixed = false;
+    }
+
     var command = commands.get(commandName);
     
     // Apply default configuration values if needed
@@ -48,7 +74,7 @@ module.exports = function ({ api, models, Users, Threads, Currencies, ...rest })
           ...command.config
         };
       }
-      };
+    }
 
     // Check for aliases if command not found
     if (!command) {
@@ -201,10 +227,10 @@ module.exports = function ({ api, models, Users, Threads, Currencies, ...rest })
         );
         return;
       }
-      if (command.config.usePrefix === true && !body.startsWith(PREFIX)) {
+      if (command.config.usePrefix === true && !wasPrefixed) {
         return;
       }
-      if (command.config.usePrefix === false && body.startsWith(PREFIX)) {
+      if (command.config.usePrefix === false && wasPrefixed) {
         return;
       }
     }
@@ -330,6 +356,7 @@ module.exports = function ({ api, models, Users, Threads, Currencies, ...rest })
       };
 
       if (command && typeof command.run === "function") {
+        console.log(`DEBUG: Executing command: ${commandName} with args: ${JSON.stringify(args)}`);
         command.run(Obj);
         timestamps.set(senderID, dateNow);
 
@@ -348,9 +375,13 @@ module.exports = function ({ api, models, Users, Threads, Currencies, ...rest })
             "DEV MODE",
           );
         }
+        console.log(`DEBUG: Command executed successfully`);
         return;
+      } else {
+        console.log(`DEBUG: No valid command found - command: ${command ? 'found' : 'not found'}, has run function: ${command && typeof command.run === 'function' ? 'yes' : 'no'}`);
       }
     } catch (e) {
+      console.log(`DEBUG: Error executing command: ${e.message}`);
       return api.sendMessage(
         global.getText("handleCommand", "commandError", commandName, e),
         threadID,
