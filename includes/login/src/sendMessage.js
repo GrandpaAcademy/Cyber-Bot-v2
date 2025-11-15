@@ -191,11 +191,23 @@ module.exports = (defaultFuncs, api, ctx) => {
 			if (utils.getType(msg.attachment) !== "Array") {
 				msg.attachment = [msg.attachment];
 			}
+		// 	const files = await uploadAttachment(msg.attachment);
+		// 		files.forEach(file => {
+		// 				const type = Object.keys(file)[0];
+		// 				form["" + type + "s"].push(file[type]);
+		// 		}); 
+		// }
 			const files = await uploadAttachment(msg.attachment);
-			files.forEach(file => {
-					const type = Object.keys(file)[0];
-					form["" + type + "s"].push(file[type]);
-			}); 
+			if (files && Array.isArray(files)) {
+				files.forEach(file => {
+					if (file && typeof file === 'object') {
+						const type = Object.keys(file)[0];
+						if (type && form["" + type + "s"]) {
+							form["" + type + "s"].push(file[type]);
+						}
+					}
+				});
+			}
 		}
 		if (msg.url) {
 			form["shareable_attachment[share_type]"] = "100";

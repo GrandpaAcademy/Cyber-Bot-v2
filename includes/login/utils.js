@@ -1212,6 +1212,24 @@ function parseAndCheckLogin(ctx, defaultFuncs, retryCount) {
                 if (data.request.headers["Content-Type"].split(";")[0] === "multipart/form-data") return bluebird.delay(retryTime).then(() => defaultFuncs.postFormData(url, ctx.jar, data.request.formData, {})).then(parseAndCheckLogin(ctx, defaultFuncs, retryCount));
                 else return bluebird.delay(retryTime).then(() => defaultFuncs.post(url, ctx.jar, data.request.formData)).then(parseAndCheckLogin(ctx, defaultFuncs, retryCount));
             }
+            if (data.statusCode === 408) {
+                // Handle timeout error with retry
+                if (retryCount >= 5) {
+                    throw {
+                        error: "Request timeout after multiple retries. Check the `res` and `statusCode` property on this error.",
+                        statusCode: data.statusCode,
+                        res: data.body
+                    };
+                }
+                retryCount++;
+                var retryTime = Math.floor(Math.random() * 5000) + 2000; // 2-7 seconds
+                log.warn("parseAndCheckLogin", "Got timeout (408) - attempt " + retryCount + " to retry in " + retryTime + " milliseconds...");
+                var url = data.request.uri.protocol + "//" + data.request.uri.hostname + data.request.uri.pathname;
+                if (data.request.headers["Content-Type"] && data.request.headers["Content-Type"].split(";")[0] === "multipart/form-data")
+                    return bluebird.delay(retryTime).then(() => defaultFuncs.postFormData(url, ctx.jar, data.request.formData, {})).then(parseAndCheckLogin(ctx, defaultFuncs, retryCount));
+                else
+                    return bluebird.delay(retryTime).then(() => defaultFuncs.post(url, ctx.jar, data.request.formData)).then(parseAndCheckLogin(ctx, defaultFuncs, retryCount));
+            }
             if (data.statusCode !== 200) throw new Error("parseAndCheckLogin got status code: " + data.statusCode + ". Bailing out of trying to parse response.");
 
             var res = null;
