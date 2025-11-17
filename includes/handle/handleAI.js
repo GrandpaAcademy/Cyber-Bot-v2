@@ -12,7 +12,7 @@ async function classifyInput(userInput, isReplyToBot = false) {
     return response.data;
   } catch (error) {
     console.error('Error calling classification API:', error.message);
-    return { type: "unknown", input: userInput }; // Don't default to general - let logic decide
+    return { type: "unknown", input: userInput }; // Don't default to general - let logic decide  // Closes #14
   }
 }
 
