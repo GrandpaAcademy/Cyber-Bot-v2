@@ -1,6 +1,6 @@
 node_modules
-appstate.json
 package-lock.json
+appstate.json
 
 
 *.py
