@@ -28,6 +28,16 @@ process.on('unhandledRejection', (reason, promise) => {
 
 function startProject() {
     try {
+        // Check if we're running on a cloud platform
+        const isCloud = process.env.PORT || process.env.RENDER || process.env.HEROKU_APP_NAME || process.env.RAILWAY_ENVIRONMENT;
+        
+        if (isCloud) {
+            // For cloud deployment, start the bot directly without spawning index.js
+            console.log(chalk.blue("🌐 Cloud deployment detected, starting bot directly..."));
+            return;
+        }
+        
+        // For local development, spawn index.js as before
         const child = spawn("node", ["--trace-warnings", "--async-stack-traces", "index.js"], {
             cwd: __dirname,
             stdio: "inherit",

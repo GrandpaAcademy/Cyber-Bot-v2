@@ -1,12 +1,18 @@
 node_modules
 package-lock.json
+
+# Facebook App State (contains sensitive login data)
 appstate.json
 
-
+# Python files
 *.py
-*.json
 
+# Configuration files (keep config.json but exclude others)
+!config.json
+*.json.tmp
+*.json.backup
 
+# Data and cache directories
 data/
 data/*.json
 data/*.txt
@@ -20,7 +26,29 @@ database/
 cache/
 tmp/
 temp/
-
 logs/
+
+# Development files
 bela/
 bela/*
+.env
+.env.local
+.env.production
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+DEPLOYMENT.md

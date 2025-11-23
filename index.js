@@ -3,18 +3,32 @@ const chalk = require("chalk");
 const check = require("get-latest-version");
 const fs = require("fs");
 const semver = require("semver");
+const path = require("path");
+const express = require("express");
+const parser = require("body-parser");
+const app = express();
+
+// Import utilities
 global.loading = require("./utils/log.js");
 
+// Configuration
 let configJson;
 let packageJson;
 const sign = "(›^-^)›";
 const fbstate = "appstate.json";
+const PORT = process.env.PORT || 2024; // Use environment port or default to 2024
 
+// Load configuration files
 try {
   configJson = require("./config.json");
 } catch (error) {
   console.error("Error loading config.json:", error);
-  process.exit(1); // Exit the script with an error code
+  console.log("Using environment variables or default configuration...");
+  configJson = {
+    UPDATE: { Package: false, EXCLUDED: [] },
+    removeSt: false,
+    language: "en"
+  };
 }
 
 const delayedLog = async (message) => {
@@ -122,17 +136,22 @@ setTimeout(() => {
   checkAndUpdate();
 }, 20000);
 
-const path = require("path");
-const express = require("express");
-const parser = require("body-parser");
-const app = express();
-
+// Express middleware and routes
 app.use(parser.json());
 
 // Serve all static files from the whole project
 app.use(express.static(path.join(__dirname, "includes/cover")));
 
-// Route to serve config.json
+// Health check endpoint for cloud platforms
+app.get("/health", (req, res) => {
+  res.status(200).json({ 
+    status: "OK", 
+    timestamp: new Date().toISOString(),
+    port: PORT 
+  });
+});
+
+// Route to serve config.json (themes)
 app.get("/themes", (req, res) => {
   res.sendFile(path.join(__dirname, "includes/cover/html.json"));
 });
@@ -142,10 +161,75 @@ app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "includes/cover/index.html"));
 });
 
-app.listen(2024, () => {
+// Start bot if in bot mode or cloud deployment
+async function startBot() {
+  try {
+    const { spawn } = require('child_process');
+    const child = spawn("node", ["--trace-warnings", "--async-stack-traces", "main.js"], {
+      cwd: __dirname,
+      stdio: "inherit",
+      shell: true,
+      env: { ...process.env, BOT_MODE: 'true' }
+    });
+
+    child.on("close", (codeExit) => {
+      if (codeExit !== 0 && !process.env.BOT_MODE) {
+        console.log(chalk.red("Bot process exited with code:", codeExit));
+        startBot(); // Restart bot if it crashes (only in non-bot mode)
+      }
+    });
+
+    child.on("error", (error) => {
+      console.log(chalk.yellow(``), `An error occurred while starting the bot process: ${error}`);
+    });
+
+  } catch (error) {
+    console.error("Error starting bot:", error);
+  }
+}
+
+// Start server and bot
+const server = app.listen(PORT, async () => {
   global.loading.log(
-    `Bot is running on port: 2024`,
+    `Web server running on port: ${PORT}`,
     "SYSTEM",
   );
+  
+  // Log deployment platform info
+  if (process.env.RENDER) {
+    console.log(chalk.blue("🚀 Running on Render"));
+  } else if (process.env.HEROKU_APP_NAME) {
+    console.log(chalk.blue("🚀 Running on Heroku"));
+  } else if (process.env.RAILWAY_ENVIRONMENT) {
+    console.log(chalk.blue("🚀 Running on Railway"));
+  } else {
+    console.log(chalk.yellow("🔧 Running locally"));
+  }
+
+  // Start the bot process for cloud deployment or if explicitly requested
+  if (process.env.RENDER || process.env.HEROKU_APP_NAME || process.env.RAILWAY_ENVIRONMENT || process.env.START_BOT === 'true') {
+    console.log(chalk.blue("🤖 Starting bot process..."));
+    setTimeout(() => startBot(), 2000); // Delay bot start to let server initialize
+  }
 });
+
+// Graceful shutdown handling
+process.on('SIGTERM', () => {
+  console.log(chalk.yellow('SIGTERM received, shutting down gracefully'));
+  server.close(() => {
+    console.log(chalk.yellow('Web server terminated'));
+    process.exit(0);
+  });
+});
+
+process.on('SIGINT', () => {
+  console.log(chalk.yellow('SIGINT received, shutting down gracefully'));
+  server.close(() => {
+    console.log(chalk.yellow('Web server terminated'));
+    process.exit(0);
+  });
+});
+
+// Export app for testing or external use
+module.exports = app;
 
