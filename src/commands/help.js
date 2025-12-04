@@ -52,14 +52,24 @@ module.exports.handleEvent = function ({ api, event, getText }) {
   const prefix = threadSetting.hasOwnProperty("PREFIX")
     ? threadSetting.PREFIX
     : global.config.PREFIX;
+  // Handle both Mirai (usages) and GoatBot (guide) command formats for handleEvent
+  let usageText;
+  if (command.config.guide) {
+    // GoatBot style - replace {pn} with prefix
+    usageText = command.config.guide.replace(/\{pn\}/g, prefix);
+  } else if (command.config.usages) {
+    // Mirai style
+    usageText = `${prefix}${command.config.name} ${command.config.usages}`;
+  } else {
+    usageText = `${prefix}${command.config.name}`;
+  }
+
   return api.sendMessage(
     getText(
       "moduleInfo",
       command.config.name,
       command.config.description,
-      `${prefix}${command.config.name} ${
-        command.config.usages ? command.config.usages : ""
-      }`,
+      usageText,
       command.config.commandCategory,
       command.config.cooldowns,
       command.config.hasPermission === 0
@@ -165,13 +175,23 @@ module.exports.run = async function ({ api, event, args, getText }) {
     // Show all config details for the command
     const details = command.config;
     let info = `╭━━━[ ${details.name} ]━━━╮\n`;
-    info += `Description: ${details.description || "N/A"}\n`;
-    info += `Version: ${details.version || "N/A"}\n`;
-    info += `Credits: ${details.credits || "N/A"}\n`;
-    info += `Category: ${details.commandCategory || "N/A"}\n`;
-    info += `Usage: ${Array.isArray(details.usages) ? details.usages.join("\n- ") : details.usages || "N/A"}\n`;
-    info += `Cooldown: ${details.cooldowns || "N/A"}s\n`;
-    info += `Permission: ${details.hasPermission === 0 ? getText("user") : details.hasPermission === 1 ? getText("adminGroup") : getText("adminBot")}\n`;
+    info += `Description: ${details.description || "No description provided"}\n`;
+    info += `Version: ${details.version || "1.0"}\n`;
+    info += `Credits: ${details.credits || "Unknown"}\n`;
+    info += `Category: ${details.commandCategory || "uncategorized"}\n`;
+    // Handle both Mirai (usages) and GoatBot (guide) command formats
+    if (details.guide) {
+      // GoatBot style - replace {pn} with prefix
+      const guideText = details.guide.replace(/\{pn\}/g, prefix);
+      info += `Guide: ${guideText}\n`;
+    } else if (details.usages) {
+      // Mirai style
+      info += `Usage: ${Array.isArray(details.usages) ? details.usages.join("\n- ") : details.usages}\n`;
+    } else {
+      info += `Usage: ${prefix}${details.name}\n`;
+    }
+    info += `Cooldown: ${details.cooldowns || 5}s\n`;
+    info += `Permission: ${details.hasPermission === 0 ? getText("user") : details.hasPermission === 1 ? getText("adminGroup") : details.hasPermission === 2 ? getText("adminBot") : getText("user")}\n`;
     if (details.aliases && Array.isArray(details.aliases) && details.aliases.length) {
       info += `Aliases: ${details.aliases.join(", ")}\n`;
     }
