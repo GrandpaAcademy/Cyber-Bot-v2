@@ -57,13 +57,32 @@ module.exports = function ({ api, models, Users, Threads, Currencies, ...rest })
       if (command) {
         const defaultConfig = global.config.defaultCommandConfig || {};
         const path = require('path');
-        
+
         // Use filename as command name if not specified
         if (!command.config.name) {
           const filePath = command.config.__filename || '';
           command.config.name = path.basename(filePath, path.extname(filePath));
         }
-        
+
+        // Set GoatBot-specific defaults for missing keys
+        const goatDefaults = {
+          role: 0,
+          usePrefix: true,
+          countDown: 5,
+          description: "No description provided",
+          commandCategory: "uncategorized",
+          guide: "{pn}",
+          author: "Unknown",
+          version: "1.0"
+        };
+
+        // Apply defaults only for missing keys
+        for (const [key, value] of Object.entries(goatDefaults)) {
+          if (typeof command.config[key] === 'undefined') {
+            command.config[key] = value;
+          }
+        }
+
         // Apply force credit if enabled
         if (global.config.forceCredit === true) {
           command.config = {
