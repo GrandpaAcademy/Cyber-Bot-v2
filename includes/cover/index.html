@@ -1,308 +1,559 @@
-<!doctype html>
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <script src="https://use.fontawesome.com/d1341f9b7a.js"></script>
-        <title>Cyber Bot v2</title>
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-            }
-            body {
-                background-color: #190096;
-            }
-            .bg {
-                width: 100%;
-                height: 100vh;
-                background-image: linear-gradient(
-                    45deg,
-                    #bc6107 0%,
-                    #fe8916 46%,
-                    #ff952a 100%
-                );
-            }
-            .glass {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                overflow: hidden;
-            }
-            .glass li {
-                position: absolute;
-                display: block;
-                list-style: none;
-                width: 20px;
-                height: 20px;
-                background: rgba(255, 255, 255, 0.1);
-                border: 1px solid rgba(255, 255, 255, 0.18);
-                animation: spin 5s linear infinite;
-                bottom: -150px;
-            }
-            .glass li:nth-child(1) {
-                left: 35%;
-                width: 150px;
-                height: 150px;
-                animation-delay: 0s;
-            }
-            .glass li:nth-child(2) {
-                left: 10%;
-                width: 20px;
-                height: 20px;
-                animation-delay: 2s;
-                animation-duration: 12s;
-            }
-            .glass li:nth-child(3) {
-                left: 70%;
-                width: 20px;
-                height: 20px;
-                animation-delay: 4s;
-            }
-            .glass li:nth-child(4) {
-                left: 40%;
-                width: 60px;
-                height: 60px;
-                animation-delay: 0s;
-                animation-duration: 18s;
-            }
-            .glass li:nth-child(5) {
-                left: 65%;
-                width: 20px;
-                height: 20px;
-                animation-delay: 0s;
-            }
-            .glass li:nth-child(6) {
-                left: 75%;
-                width: 110px;
-                height: 110px;
-                animation-delay: 3s;
-            }
-            .glass li:nth-child(7) {
-                left: 35%;
-                width: 150px;
-                height: 150px;
-                animation-delay: 7s;
-            }
-            .glass li:nth-child(8) {
-                left: 50%;
-                width: 25px;
-                height: 25px;
-                animation-delay: 15s;
-                animation-duration: 45s;
-            }
-            .glass li:nth-child(9) {
-                left: 20%;
-                width: 15px;
-                height: 15px;
-                animation-delay: 2s;
-                animation-duration: 35s;
-            }
-            .glass li:nth-child(10) {
-                left: 85%;
-                width: 150px;
-                height: 150px;
-                animation-delay: 0s;
-                animation-duration: 11s;
-            }
-            .glass li:nth-child(11) {
-                left: 10%;
-                width: 110px;
-                height: 110px;
-                animation-delay: 0s;
-                animation-duration: 11s;
-            }
-            .glass li:nth-child(12) {
-                left: 45%;
-                width: 160px;
-                height: 160px;
-                animation-delay: 2s;
-                animation-duration: 5s;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberBot v2.0.0</title>
+    <meta name="description" content="A Modern Facebook Messenger Bot with Advanced Features - Built by Grandpa Academy">
+    <meta name="keywords" content="Facebook Bot, Messenger Bot, CyberBot, Grandpa Academy, Node.js Bot">
+    <meta name="author" content="Grandpa Academy">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="./assets/logo.svg">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #1e3a8a 0%, #516a92 50%, #374164 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h2 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #fff, #e2e8f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .section-title {
+            text-align: center;
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            font-weight: 700;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            color: white;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+        }
+
+        /* Installation Section */
+        .installation {
+            padding: 80px 0;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .install-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .install-content h3 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .install-content p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            color: #e2e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
+        }
+
+        .code-block code {
+            display: block;
+            line-height: 1.6;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 60px 0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-item {
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            background: rgba(0, 0, 0, 0.2);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .social-links a {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #667eea;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2.5rem;
             }
 
-            .logo-container {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                z-index: 10;
-                pointer-events: none;
+            .hero p {
+                font-size: 1.1rem;
             }
 
-            @keyframes spin {
-                0% {
-                    transform: translateY(0) rotate(0deg);
-                    opacity: 1;
-                    border-radius: 80%;
-                }
-                100% {
-                    transform: translateY(-1000px) rotate(720deg);
-                    opacity: 0;
-                    border-radius: 100%;
-                }
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
             }
-        </style>
-    </head>
-    <body>
-        <div class="bg">
-            <div class="logo-container">
-                <svg width="800" height="450" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <linearGradient id="hackergradient3" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" style="stop-color:#00ff00;stop-opacity:1" />
-                      <stop offset="50%" style="stop-color:#00cc00;stop-opacity:1" />
-                      <stop offset="100%" style="stop-color:#004400;stop-opacity:1" />
-                    </linearGradient>
-                    <linearGradient id="terminalgrad3" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" style="stop-color:#001100;stop-opacity:1" />
-                      <stop offset="100%" style="stop-color:#000000;stop-opacity:1" />
-                    </linearGradient>
-                    <filter id="hackerglow3">
-                      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
-                      <feMerge>
-                        <feMergeNode in="coloredBlur"/>
-                        <feMergeNode in="SourceGraphic"/>
-                      </feMerge>
-                    </filter>
-                  </defs>
 
-                  <!-- Background -->
-                  <rect width="1920" height="1080" fill="#000000"/>
+            .install-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
 
-                  <!-- Terminal Window -->
-                  <rect x="200" y="150" width="1520" height="780" rx="30" ry="30"
-                        fill="url(#terminalgrad3)" stroke="#00ff00" stroke-width="4" filter="url(#hackerglow3)">
-                    <animate attributeName="stroke-opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
-                  </rect>
+            .nav-links {
+                display: none;
+            }
+        }
 
-                  <!-- Left Side - Skull -->
-                  <ellipse cx="600" cy="540" rx="120" ry="100" fill="url(#hackergradient3)" filter="url(#hackerglow3)">
-                    <animate attributeName="fill-opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
-                  </ellipse>
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-                  <!-- Eye Sockets -->
-                  <ellipse cx="560" cy="520" rx="25" ry="30" fill="#000000">
-                    <animate attributeName="ry" values="30;35;30" dur="2s" repeatCount="indefinite"/>
-                  </ellipse>
-                  <ellipse cx="640" cy="520" rx="25" ry="30" fill="#000000">
-                    <animate attributeName="ry" values="30;35;30" dur="2s" repeatCount="indefinite"/>
-                  </ellipse>
-
-                  <!-- Glowing Eyes -->
-                  <circle cx="560" cy="520" r="12" fill="#00ff00" filter="url(#hackerglow3)">
-                    <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite"/>
-                  </circle>
-                  <circle cx="640" cy="520" r="12" fill="#00ff00" filter="url(#hackerglow3)">
-                    <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite"/>
-                  </circle>
-
-                  <!-- Animated Smile Expressions -->
-                  <!-- Smile -->
-                  <path d="M 540 580 Q 600 620 660 580" stroke="#1d571dff" stroke-width="6"
-                        fill="none" filter="url(#hackerglow3)" opacity="1">
-                    <animate attributeName="opacity" values="1;0;0;1;1;1" dur="6s" repeatCount="indefinite"/>
-                  </path>
-
-                  <!-- Normal (straight line) -->
-                  <line x1="540" y1="590" x2="660" y2="590" stroke="#1c521cff" stroke-width="6"
-                        filter="url(#hackerglow3)" opacity="0">
-                    <animate attributeName="opacity" values="0;1;0;0;0;0" dur="6s" repeatCount="indefinite"/>
-                  </line>
-
-                  <!-- Abnormal (frown/crazy) -->
-                  <path d="M 540 600 Q 600 560 660 600" stroke="#881414ff" stroke-width="6"
-                        fill="none" filter="url(#hackerglow3)" opacity="0">
-                    <animate attributeName="opacity" values="0;0;1;0;0;0" dur="6s" repeatCount="indefinite"/>
-                  </path>
-
-                  <!-- Matrix Code Streams - Left -->
-                  <text x="300" y="300" font-family="monospace" font-size="20" fill="#00ff00" opacity="0.7">
-                    01000111 01110010 01100001 01101110 01100100 01110000 01100001
-                    <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
-                  </text>
-                  <text x="300" y="330" font-family="monospace" font-size="20" fill="#00ff00" opacity="0.5">
-                    01000001 01100011 01100001 01100100 01100101 01101101 01111001
-                    <animate attributeName="opacity" values="0.5;0.9;0.5" dur="2.5s" repeatCount="indefinite"/>
-                  </text>
-                  <text x="300" y="750" font-family="monospace" font-size="20" fill="#00ff00" opacity="0.6">
-                    01000111 01110010 01100001 01101110 01100100 01110000 01100001
-                    <animate attributeName="opacity" values="0.6;1;0.6" dur="1.8s" repeatCount="indefinite"/>
-                  </text>
-                  <text x="300" y="780" font-family="monospace" font-size="20" fill="#00ff00" opacity="0.4">
-                    01000001 01100011 01100001 01100100 01100101 01101101 01111001
-                    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="3s" repeatCount="indefinite"/>
-                  </text>
-
-                  <!-- Right Side - Academy Promotion -->
-                  <text x="1200" y="450" text-anchor="middle" font-family="monospace"
-                        font-size="80" font-weight="bold" fill="#00ff00" filter="url(#hackerglow3)">
-                    Grandpa
-                    ACADEMY
-                    <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite"/>
-                  </text>
-                  <text x="1200" y="550" text-anchor="middle" font-family="monospace"
-                        font-size="30" fill="#00aa00">A simple Academy for simple people.</text>
-
-                  <!-- Bottom Text -->
-                  <text x="960" y="850" text-anchor="middle" font-family="monospace"
-                        font-size="40" fill="#00ff00" filter="url(#hackerglow3)">
-                    CyberBot v2.0.0 - Powered by Grandpa Academy
-                    <animate attributeName="opacity" values="0.7;1;0.7" dur="4s" repeatCount="indefinite"/>
-                  </text>
-
-                  <!-- Floating Matrix Particles -->
-                  <circle cx="1400" cy="300" r="3" fill="#00ff00" opacity="0.6">
-                    <animateTransform attributeName="transform" type="translate"
-                                      values="0,0; 20,-20; 0,0" dur="4s" repeatCount="indefinite"/>
-                    <animate attributeName="opacity" values="0.6;1;0.6" dur="4s" repeatCount="indefinite"/>
-                  </circle>
-                  <circle cx="1500" cy="700" r="4" fill="#00ff00" opacity="0.5">
-                    <animateTransform attributeName="transform" type="translate"
-                                      values="0,0; -30,15; 0,0" dur="5s" repeatCount="indefinite"/>
-                  </circle>
-                </svg>
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <h1>CyberBot</h1>
             </div>
-            <ul class="glass">
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#installation">Installation</a></li>
+                <li><a href="#support">Support</a></li>
+                <li><a href="https://github.com/GrandpaAcademy/Cyber-Bot-v2">GitHub</a></li>
             </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2 class="fade-in-up">CyberBot v2.0.0</h2>
+            <p class="fade-in-up">A Modern Facebook Messenger Bot with Advanced Features</p>
+            <div class="hero-buttons fade-in-up">
+                <a href="https://github.com/GrandpaAcademy/Cyber-Bot-v2" class="btn btn-primary">
+                    <i class="fab fa-github"></i> Get Started
+                </a>
+                <a href="#installation" class="btn btn-secondary">
+                    <i class="fas fa-download"></i> Installation Guide
+                </a>
+            </div>
         </div>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const bgElement = document.querySelector(".bg");
+    </section>
 
-                // Fetch the config data
-                fetch("/themes")
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error(
-                                `HTTP error! Status: ${response.status}`,
-                            );
-                        }
-                        return response.json();
-                    })
-                    .then((configData) => {
-                        const htmlColors = configData.THEME_COLOR;
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">✨ Features</h2>
+            <div class="features-grid">
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>Modern Architecture</h3>
+                    <p>Built on Node.js 20.x with optimized performance and modern coding standards.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Multi-language Support</h3>
+                    <p>Full support for English and Bengali languages with easy extension for more.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Enhanced Security</h3>
+                    <p>Built-in appstate encryption and advanced security features to protect your bot.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Fast & Efficient</h3>
+                    <p>Optimized code for maximum performance and minimal resource usage.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Easy to Extend</h3>
+                    <p>Simple command creation system with comprehensive documentation.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Highly Customizable</h3>
+                    <p>Flexible configuration options to customize every aspect of your bot.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                        const newGradient = `linear-gradient(45deg, ${htmlColors[0]} 0%, ${htmlColors[1]} 46%, ${htmlColors[2]} 100%)`;
+    <section id="installation" class="installation">
+        <div class="container">
+            <div class="install-grid">
+                <div class="install-content">
+                    <h3>🚀 Quick Installation</h3>
+                    <p>Get your CyberBot up and running in minutes with these simple steps.</p>
 
-                        bgElement.style.backgroundImage = newGradient;
-                    })
-                    .catch((error) => {
-                        console.error("Error loading config.json:", error);
+                    <h4>1. Clone the Repository</h4>
+                    <div class="code-block">
+                        <code>git clone https://github.com/GrandpaAcademy/Cyber-Bot-v2.git<br>cd Cyber-Bot-v2</code>
+                    </div>
+
+                    <h4>2. Install Dependencies</h4>
+                    <div class="code-block">
+                        <code>npm install --legacy-peer-deps</code>
+                    </div>
+
+                    <h4>3. Start the Bot</h4>
+                    <div class="code-block">
+                        <code>npm start</code>
+                    </div>
+                </div>
+                <div class="install-content">
+                    <h3>📋 Requirements</h3>
+                    <ul style="color: rgba(255, 255, 255, 0.8); list-style: none; padding: 0;">
+                        <li style="margin-bottom: 15px;"><i class="fab fa-node-js" style="color: #339933; margin-right: 10px;"></i> Node.js 20.x or higher</li>
+                        <li style="margin-bottom: 15px;"><i class="fas fa-terminal" style="color: #000; margin-right: 10px;"></i> NPM or Yarn package manager</li>
+                        <li style="margin-bottom: 15px;"><i class="fab fa-git" style="color: #f05032; margin-right: 10px;"></i> Git version control</li>
+                        <li style="margin-bottom: 15px;"><i class="fab fa-facebook" style="color: #1877f2; margin-right: 10px;"></i> Facebook Account</li>
+                    </ul>
+
+                    <div style="margin-top: 30px;">
+                        <a href="README.md" class="btn btn-primary" style="margin-right: 15px;">
+                            <i class="fas fa-book"></i> Full Documentation
+                        </a>
+                        <a href="README_bn.md" class="btn btn-secondary">
+                            <i class="fas fa-book"></i> বাংলা ডকুমেন্টেশন
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">2.0.0</div>
+                    <div class="stat-label">Current Version</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">20.x</div>
+                    <div class="stat-label">Node.js Version</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Languages</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">Possibilities</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="https://github.com/GrandpaAcademy/Cyber-Bot-v2" title="GitHub">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://t.me/Grandpa_Academy" title="Telegram">
+                    <i class="fab fa-telegram"></i>
+                </a>
+                <a href="https://www.youtube.com/@Grandpa_Academy" title="YouTube">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a href="https://www.facebook.com/GrandpaEJ" title="Facebook">
+                    <i class="fab fa-facebook"></i>
+                </a>
+            </div>
+            <p>Made with 💖 by <a href="https://github.com/GrandpaAcademy" style="color: #667eea; text-decoration: none;">Grandpa Academy</a></p>
+            <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.6;">
+                Copyright © 2025 Grandpa Academy | CyberBot v2.0.0
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
                     });
+                }
             });
-        </script>
-    </body>
+        });
+
+        // Add fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements with fade-in-up class
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+            observer.observe(el);
+        });
+    </script>
+</body>
 </html>
