@@ -1,98 +1,99 @@
-<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="cyborgradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#00ffff;stop-opacity:1" />
-      <stop offset="50%" style="stop-color:#0080ff;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#8000ff;stop-opacity:1" />
-    </linearGradient>
-    <linearGradient id="eyeglow" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#ff0080;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#ff4000;stop-opacity:1" />
-    </linearGradient>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-      <feMerge> 
-        <feMergeNode in="coloredBlur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-  </defs>
-  
-  <!-- Robot Head -->
-  <rect x="50" y="40" width="100" height="80" rx="15" ry="15" 
-        fill="url(#cyborgradient)" stroke="#00ffff" stroke-width="2" filter="url(#glow)">
-    <animate attributeName="stroke-width" values="2;4;2" dur="2s" repeatCount="indefinite"/>
-  </rect>
-  
-  <!-- Eyes -->
-  <circle cx="75" cy="70" r="8" fill="url(#eyeglow)" filter="url(#glow)">
-    <animate attributeName="r" values="8;10;8" dur="1.5s" repeatCount="indefinite"/>
-    <animate attributeName="opacity" values="1;0.5;1" dur="1s" repeatCount="indefinite"/>
-  </circle>
-  <circle cx="125" cy="70" r="8" fill="url(#eyeglow)" filter="url(#glow)">
-    <animate attributeName="r" values="8;10;8" dur="1.5s" repeatCount="indefinite"/>
-    <animate attributeName="opacity" values="1;0.5;1" dur="1s" repeatCount="indefinite"/>
-  </circle>
-  
-  <!-- Mouth/Speaker -->
-  <rect x="85" y="90" width="30" height="15" rx="7" ry="7" 
-        fill="#333" stroke="#00ffff" stroke-width="1">
-    <animate attributeName="fill" values="#333;#00ffff;#333" dur="3s" repeatCount="indefinite"/>
-  </rect>
-  
-  <!-- Antenna -->
-  <line x1="100" y1="40" x2="100" y2="20" stroke="#00ffff" stroke-width="3" filter="url(#glow)">
-    <animate attributeName="stroke-width" values="3;5;3" dur="2s" repeatCount="indefinite"/>
-  </line>
-  <circle cx="100" cy="20" r="4" fill="#ff0080" filter="url(#glow)">
-    <animate attributeName="r" values="4;6;4" dur="1s" repeatCount="indefinite"/>
-  </circle>
-  
-  <!-- Body -->
-  <rect x="60" y="120" width="80" height="60" rx="10" ry="10" 
-        fill="url(#cyborgradient)" stroke="#00ffff" stroke-width="2" opacity="0.8">
-    <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
-  </rect>
-  
-  <!-- Chest Panel -->
-  <rect x="80" y="135" width="40" height="30" rx="5" ry="5" 
-        fill="#1a1a1a" stroke="#00ffff" stroke-width="1">
-    <animate attributeName="stroke" values="#00ffff;#ff0080;#00ffff" dur="2s" repeatCount="indefinite"/>
-  </rect>
-  
-  <!-- Circuit Lines -->
-  <path d="M70 140 L90 140 L90 155 L110 155 L110 140 L130 140" 
-        stroke="#00ffff" stroke-width="2" fill="none" opacity="0.7">
-    <animate attributeName="opacity" values="0.7;1;0.7" dur="1.5s" repeatCount="indefinite"/>
-  </path>
-  
-  <!-- Version Text -->
-  <text x="100" y="195" text-anchor="middle" font-family="Arial, sans-serif" 
-        font-size="12" font-weight="bold" fill="#00ffff" filter="url(#glow)">
-    v2.0.0
-    <animate attributeName="fill" values="#00ffff;#ff0080;#00ffff" dur="2s" repeatCount="indefinite"/>
-  </text>
-  
-  <!-- Cyber Text -->
-  <text x="100" y="15" text-anchor="middle" font-family="Arial, sans-serif" 
-        font-size="14" font-weight="bold" fill="#00ffff" filter="url(#glow)">
-    CYBER
-    <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite"/>
-  </text>
-  
-  <!-- Floating Particles -->
-  <circle cx="30" cy="50" r="2" fill="#00ffff" opacity="0.6">
-    <animateTransform attributeName="transform" type="translate" 
-                      values="0,0; 10,-10; 0,0" dur="3s" repeatCount="indefinite"/>
-    <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
-  </circle>
-  <circle cx="170" cy="80" r="2" fill="#ff0080" opacity="0.6">
-    <animateTransform attributeName="transform" type="translate" 
-                      values="0,0; -10,10; 0,0" dur="4s" repeatCount="indefinite"/>
-    <animate attributeName="opacity" values="0.6;1;0.6" dur="4s" repeatCount="indefinite"/>
-  </circle>
-  <circle cx="40" cy="150" r="1.5" fill="#8000ff" opacity="0.5">
-    <animateTransform attributeName="transform" type="translate" 
-                      values="0,0; 15,5; 0,0" dur="5s" repeatCount="indefinite"/>
-  </circle>
-</svg>
+ 
+ <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+   <defs>
+     <linearGradient id="cyborgradient" x1="0%" y1="0%" x2="100%" y2="100%">
+       <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+       <stop offset="50%" style="stop-color:#2563eb;stop-opacity:1" />
+       <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
+     </linearGradient>
+     <linearGradient id="eyeglow" x1="0%" y1="0%" x2="100%" y2="100%">
+       <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:1" />
+       <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+     </linearGradient>
+     <filter id="glow">
+       <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+       <feMerge>
+         <feMergeNode in="coloredBlur"/>
+         <feMergeNode in="SourceGraphic"/>
+       </feMerge>
+     </filter>
+   </defs>
+ 
+   <!-- Robot Head -->
+   <rect x="50" y="40" width="100" height="80" rx="15" ry="15"
+         fill="url(#cyborgradient)" stroke="#3b82f6" stroke-width="2" filter="url(#glow)">
+     <animate attributeName="stroke-width" values="2;4;2" dur="2s" repeatCount="indefinite"/>
+   </rect>
+ 
+   <!-- Eyes -->
+   <circle cx="75" cy="70" r="8" fill="url(#eyeglow)" filter="url(#glow)">
+     <animate attributeName="r" values="8;10;8" dur="1.5s" repeatCount="indefinite"/>
+     <animate attributeName="opacity" values="1;0.5;1" dur="1s" repeatCount="indefinite"/>
+   </circle>
+   <circle cx="125" cy="70" r="8" fill="url(#eyeglow)" filter="url(#glow)">
+     <animate attributeName="r" values="8;10;8" dur="1.5s" repeatCount="indefinite"/>
+     <animate attributeName="opacity" values="1;0.5;1" dur="1s" repeatCount="indefinite"/>
+   </circle>
+ 
+   <!-- Mouth/Speaker -->
+   <rect x="85" y="90" width="30" height="15" rx="7" ry="7"
+         fill="#333" stroke="#3b82f6" stroke-width="1">
+     <animate attributeName="fill" values="#333;#3b82f6;#333" dur="3s" repeatCount="indefinite"/>
+   </rect>
+ 
+   <!-- Antenna -->
+   <line x1="100" y1="40" x2="100" y2="20" stroke="#3b82f6" stroke-width="3" filter="url(#glow)">
+     <animate attributeName="stroke-width" values="3;5;3" dur="2s" repeatCount="indefinite"/>
+   </line>
+   <circle cx="100" cy="20" r="4" fill="#60a5fa" filter="url(#glow)">
+     <animate attributeName="r" values="4;6;4" dur="1s" repeatCount="indefinite"/>
+   </circle>
+ 
+   <!-- Body -->
+   <rect x="60" y="120" width="80" height="60" rx="10" ry="10"
+         fill="url(#cyborgradient)" stroke="#3b82f6" stroke-width="2" opacity="0.8">
+     <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
+   </rect>
+ 
+   <!-- Chest Panel -->
+   <rect x="80" y="135" width="40" height="30" rx="5" ry="5"
+         fill="#1a1a1a" stroke="#3b82f6" stroke-width="1">
+     <animate attributeName="stroke" values="#3b82f6;#60a5fa;#3b82f6" dur="2s" repeatCount="indefinite"/>
+   </rect>
+ 
+   <!-- Circuit Lines -->
+   <path d="M70 140 L90 140 L90 155 L110 155 L110 140 L130 140"
+         stroke="#3b82f6" stroke-width="2" fill="none" opacity="0.7">
+     <animate attributeName="opacity" values="0.7;1;0.7" dur="1.5s" repeatCount="indefinite"/>
+   </path>
+ 
+   <!-- Version Text -->
+   <text x="100" y="195" text-anchor="middle" font-family="Arial, sans-serif"
+         font-size="12" font-weight="bold" fill="#3b82f6" filter="url(#glow)">
+     v2.0.0
+     <animate attributeName="fill" values="#3b82f6;#60a5fa;#3b82f6" dur="2s" repeatCount="indefinite"/>
+   </text>
+ 
+   <!-- Cyber Text -->
+   <text x="100" y="15" text-anchor="middle" font-family="Arial, sans-serif"
+         font-size="14" font-weight="bold" fill="#3b82f6" filter="url(#glow)">
+     CYBER
+     <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite"/>
+   </text>
+ 
+   <!-- Floating Particles -->
+   <circle cx="30" cy="50" r="2" fill="#3b82f6" opacity="0.6">
+     <animateTransform attributeName="transform" type="translate"
+                       values="0,0; 10,-10; 0,0" dur="3s" repeatCount="indefinite"/>
+     <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
+   </circle>
+   <circle cx="170" cy="80" r="2" fill="#60a5fa" opacity="0.6">
+     <animateTransform attributeName="transform" type="translate"
+                       values="0,0; -10,10; 0,0" dur="4s" repeatCount="indefinite"/>
+     <animate attributeName="opacity" values="0.6;1;0.6" dur="4s" repeatCount="indefinite"/>
+   </circle>
+   <circle cx="40" cy="150" r="1.5" fill="#1e40af" opacity="0.5">
+     <animateTransform attributeName="transform" type="translate"
+                       values="0,0; 15,5; 0,0" dur="5s" repeatCount="indefinite"/>
+   </circle>
+ </svg>
