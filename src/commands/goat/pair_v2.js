@@ -6,7 +6,8 @@ module.exports = {
     countDown: 5,
     role: 0,
     description: "Pair with someone special with beautiful design",
-    category: "fun",
+    commandCategory: "fun",
+    usePrefix:true,
     guide: "{pn} @mention\n{pn} reply\n{pn} (random pair)"
   },
   onStart: async function({ message, args, event, api, usersData, threadsData }) {
