@@ -39,7 +39,7 @@ async function downloadFile(url, filePath) {
 }
 
 async function makeImage({ one, two }) {
-    const __root = path.resolve(__dirname, "cache", "canvas");
+    const __root = path.resolve(__dirname, "cache");
     const backgroundPath = path.resolve(__dirname, '../../assets/img/couple.jpeg');
     const avatarOnePath = __root + `/avt_${one}.png`;
     const avatarTwoPath = __root + `/avt_${two}.png`;
