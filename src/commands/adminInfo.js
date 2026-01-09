@@ -24,16 +24,16 @@ module.exports.run = async function({ api, event }) {
 ┏━━━━━━━━━━━━━━━━━━━━━┓
 ┃      🌟 𝗢𝗪𝗡𝗘𝗥 𝗜𝗡𝗙𝗢 🌟      
 ┣━━━━━━━━━━━━━━━━━━━━━┫
-┃ 👤 𝐍𝐚𝐦𝐞      : ${conf.AuthorName}
-┃ 🚹 𝐆𝐞𝐧𝐝𝐞𝐫    :  ${conf.AuthorGender}
-┃ ❤️ 𝐑𝐞𝐥𝐚𝐭𝐢𝐨𝐧  : ${conf.AuthorReletionalStatus}
-┃ 🎂 𝐀𝐠𝐞        : ${conf.AuthorAge}
-┃ 🕌 𝐑𝐞𝐥𝐢𝐠𝐢𝐨𝐧  : ${conf.AuthorReligion}
-┃ 🏫 𝐄𝐝𝐮𝐜𝐚𝐭𝐢𝐨𝐧 : None.
-┃ 🏡 𝐀𝐝𝐝𝐫𝐞𝐬𝐬  : ${conf.AuthorLocation}
+┃ 👤 𝐍𝐚𝐦𝐞      : MD SAKIL HASAN RUDRO 
+┃ 🚹 𝐆𝐞𝐧𝐝𝐞𝐫    :  MALE
+┃ ❤️ 𝐑𝐞𝐥𝐚𝐭𝐢𝐨𝐧  : SINGLE 
+┃ 🎂 𝐀𝐠𝐞        : 22+
+┃ 🕌 𝐑𝐞𝐥𝐢𝐠𝐢𝐨𝐧  : Bangladesh 
+┃ 🏫 𝐄𝐝𝐮𝐜𝐚𝐭𝐢𝐨𝐧 : MBA graduation 
+┃ 🏡 𝐀𝐝𝐝𝐫𝐞𝐬𝐬  : Narayanganj and Bogura 
 ┣━━━━━━━━━━━━━━━━━━━━━┫
-┃ 📢 𝐓𝐞𝐥𝐞𝐠𝐫𝐚𝐦 : ${conf.TelegramLink}
-┃ 🌐 𝐅𝐚𝐜𝐞𝐛𝐨𝐨𝐤 : ${conf.FacebookLink}
+┃ 📢 𝐓𝐞𝐥𝐞𝐠𝐫𝐚𝐦 : 01617655013
+┃ 🌐 𝐅𝐚𝐜𝐞𝐛𝐨𝐨𝐤 : https://www.facebook.com/share/1NVsDM9h61/
 ┣━━━━━━━━━━━━━━━━━━━━━┫
 ┃ 🕒 𝐔𝐩𝐝𝐚𝐭𝐞𝐝 𝐓𝐢𝐦𝐞:  ${time}
 ┗━━━━━━━━━━━━━━━━━━━━━┛
