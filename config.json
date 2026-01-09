@@ -37,27 +37,25 @@
   },
   "commandDisabled": [],
   "eventDisabled": [],
-  "BOTNAME": "SORA BOT",
+  "BOTNAME": "RUDRO BOT",
   "PREFIX": "?",
   "ADMINBOT": [
-    "100002672611442"
+    "100057154284371"
   ],
   "OWNER": [
-    "100002672611442"
+    "100057154284371"
   ],
-  "AuthorName": "Grandpa EJ",
+  "AuthorName": "RUDRO",
   "AuthorGender": "Male",
   "AuthorReligion": "Islam",
   "AuthorReletionalStatus": "Single",
-  "AuthorAge": "10+",
+  "AuthorAge": "22+",
   "AuthorLocation": "Bangladesh",
   "AuthorGithub": "https://github.com/GrandpaEJ",
-  "AuthorFacebook": "https://www.facebook.com/Ebtisam.Jubair",
-  "AuthorID": "100002672611442",
-  "DESIGN": {
-    "Title": "Cyber-Bot",
+  "AuthorFacebook": "https:https://www.facebook.com/share/1NVsDM9h61/
+    "Title": "RUDRO-Bot",
     "Theme": "Blue",
-    "Admin": "GrandpaEJ",
+    "Admin": "RUDRO",
     "Setup": {
       "Info": "Apnar nijossho custom terminal Titlebar design korun title er jonno ar ekhane kono number thakte parbe na",
       "Themes": "Apnar console ke bivinno theme color diye customize korun. Aqua, Fiery, Blue, Orange, Pink, Red, Retro, Sunlight, Teen, Summer, Flower, Ghost, Purple, Rainbow, ar Hacker theme explore korun apnar terminal logs enhance korar jonno."
