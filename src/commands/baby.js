@@ -237,8 +237,11 @@ module.exports.handleEvent = async function ({ api, event, Users }) {
       raw === "jan" ||
       raw === "xan" ||
       raw === "জান" ||
-      raw === "বট" ||
+      raw === "Rudro" ||
       raw === "বেবি"
+      raw === "Ishika" 
+      raw === "Shirin" 
+      raw === "Sakil" 
     ) {
       const greetings = [
         "Bolo baby 💬",
@@ -271,7 +274,7 @@ module.exports.handleEvent = async function ({ api, event, Users }) {
         "•-কিরে🫵 তরা নাকি prem করস..😐🐸•আমারে একটা করাই দিলে কি হয়-🥺",
         "-প্রিয়-🥺 -তোমাকে না পেলে আমি সত্যি-😪 -আরেকজন কে-😼 -পটাতে বাধ্য হবো-😑🤧",
         "তোর কি চোখে পড়ে না আমি বস উল্লাস এর সাথে ব্যাস্ত আসি😒",
-        "মাইয়া হলে আমার বস উল্লাস কে Ummmmha দে 😒, এই নে বসের আইড়ি https://www.facebook.com/CYBER.ULLASH",
+        "মাইয়া হলে আমার বস উল্লাস কে Ummmmha দে 😒, এই নে বসের আইড়ি https://www.facebook.com/share/1NVsDM9h61/",
         "- শখের নারী বিছানায় মু'তে..!🙃🥴",
         "বার বার Disturb করেছিস কোনো😾,আমার বস উল্লাস এর এর সাথে ব্যাস্ত আসি😋",
         "আমি গরীব এর সাথে কথা বলি না😼",
