@@ -37,23 +37,23 @@
   },
   "commandDisabled": [],
   "eventDisabled": [],
-  "BOTNAME": "SORA BOT",
+  "BOTNAME": "RUDRO BOT",
   "PREFIX": "?",
   "ADMINBOT": [
-    "100002672611442"
+    "100057154284371"
   ],
   "OWNER": [
-    "100002672611442"
+    "100057154284371"
   ],
-  "AuthorName": "Grandpa EJ",
+  "AuthorName": "Rudro",
   "AuthorGender": "Male",
   "AuthorReligion": "Islam",
   "AuthorReletionalStatus": "Single",
-  "AuthorAge": "10+",
+  "AuthorAge": "22+",
   "AuthorLocation": "Bangladesh",
   "AuthorGithub": "https://github.com/GrandpaEJ",
-  "AuthorFacebook": "https://www.facebook.com/Ebtisam.Jubair",
-  "AuthorID": "100002672611442",
+  "AuthorFacebook": "https://www.facebook.com/share/1NVsDM9h61/",
+  "AuthorID": "100057154284371",
   "DESIGN": {
     "Title": "Cyber-Bot",
     "Theme": "Blue",
